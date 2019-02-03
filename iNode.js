@@ -98,15 +98,18 @@ var iNode = (function() {
 		}
 	};
 
-	Renderer.prototype.addNode = function(node, nID)
+	Renderer.prototype.addNode = function(node, id)
 	{
-		node.nID = (typeof nID == 'undefined') ? 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : nID;
-		this.node[node.nID] = node;
+		node.id = (typeof id == 'undefined') ? 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
 		node.renderer = this;
 
-		node.gObj = this.createElement(this.nodesObj, 'g', {class:'inode_node inode_'+ node.nID});
+		node.gObj = this.createElement(this.nodesObj, 'g', {class:'inode_node inode_'+ node.id});
 		node.fObj = this.createElement(node.gObj, 'foreignObject', {x:10, y:10, width:180, height:180});
-		node.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content inode_'+ node.nID + '"><ul><li><strong>First</strong> item</li>  <li><em>Second</em> item</li> <li>Thrid item</li> </ul></div>';
+		node.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content inode_'+ node.id + '"><ul><li><strong>First</strong> item</li>  <li><em>Second</em> item</li> <li>Thrid item</li> </ul></div>';
+		
+		this.node[node.id] = node;
+
+		return this;
 	};
 
 	function Node(nID)
