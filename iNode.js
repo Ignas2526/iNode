@@ -247,6 +247,14 @@ var iNode = (function() {
 		}*/
 	}
 	
+	/********* Link *********/
+	function Link(nID)
+	{
+		this.renderer = null;
+		this.nodeA = null;
+		this.nodeB = null;
+	};
+	
 	function bezierCurve(x0, y0, x1, y1)
 	{
 		var mx = x0 + (x1 - x0) / 2;
