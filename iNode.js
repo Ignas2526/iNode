@@ -24,6 +24,7 @@ var iNode = (function() {
 
 		this.node = {};
 
+		this.link = {};
 		this.Link = null;
 		this.LinkPos = null;
 	};
@@ -123,6 +124,14 @@ var iNode = (function() {
 		pos.x -= this.svgRect.left;
 		pos.y -= this.svgRect.top;
 		return pos;
+	}
+	
+	Renderer.prototype.addLink = function(link, id)
+	{
+		link.id = (typeof id == 'undefined') ? 'link' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
+		link.renderer = this;
+
+		this.link[link.id] = link;
 	}
 	
 	/********* Node *********/
@@ -266,6 +275,7 @@ var iNode = (function() {
 		'Node': function(params) {return new Node(params);},
 		'NodeInlet': function(DOmobj) {return new NodeInlet(DOmobj);},
 		'NodeOutlet': function(DOmobj) {return new NodeOutlet(DOmobj);},
+		'Link': function() {return new Link();},
 	}
 
 })();
