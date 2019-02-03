@@ -154,6 +154,10 @@ var iNode = (function() {
 
 		this.renderer.addListener(inlet.DOMobj, 'start', inlet);
 
+		var rect = inlet.DOMobj.getBoundingClientRect();
+		var coords = this.renderer.relativeCoordinates(rect);
+		inlet.rect = {x: coords.x, y: coords.y, width: rect.width, height: rect.height};
+		
 		return this;
 	};
 
