@@ -144,12 +144,7 @@ var iNode = (function() {
 		}
 		return this;
 	}
-
 	
-	Node.prototype.handleEvent = function(evt) {
-		console.log(evt)
-	}
-
 	Node.prototype.addInlet = function(inlet, id)
 	{
 		inlet.id = (typeof id == 'undefined') ? 'inlet' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
