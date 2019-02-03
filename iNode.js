@@ -131,8 +131,9 @@ var iNode = (function() {
 	{
 		inlet.id = (typeof id == 'undefined') ? 'inlet' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
 		inlet.renderer = this.renderer;
+		this.inlet[inlet.id] = inlet;
 
-		//this.renderer.addListener(this.input[id].obj, 'start', this);
+		this.renderer.addListener(inlet.DOMobj, 'start', inlet);
 
 		return this;
 	};
@@ -215,8 +216,10 @@ var iNode = (function() {
 	}
 
 	return {
-		'Renderer': function(svgObj) {return new Renderer(svgObj);}
-		'Node': function(params) {return new Node(params);}
+		'Renderer': function(svgObj) {return new Renderer(svgObj);},
+		'Node': function(params) {return new Node(params);},
+		'NodeInlet': function(DOmobj) {return new NodeInlet(DOmobj);},
+		'NodeOutlet': function(DOmobj) {return new NodeOutlet(DOmobj);},
 	}
 
 })();
