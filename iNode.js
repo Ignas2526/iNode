@@ -120,7 +120,7 @@ var iNode = (function() {
 		console.log(evt)
 	}
 
-	Node.prototype.addInput = function(iID, params)
+	Node.prototype.addInlet = function(inlet, params)
 	{
 		this.iID = (typeof iID == 'undefined') ? 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : iID;
 		this.input[iID] = {};
