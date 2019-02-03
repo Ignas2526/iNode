@@ -141,6 +141,31 @@ var iNode = (function() {
 		self.addEvent(document, 'move', self.nodeInputMove, true);
 		self.addEvent(document, 'end', self.nodeInputStop, true);
 	};
+	
+	
+	function NodeInlet(nID)
+	{
+		this.renderer = null;
+	};
+
+	NodeInlet.prototype.handleEvent = function(evt) {
+		console.log(this,evt);
+		/*switch(evt.type) {
+			case 'click':
+		}*/
+	}
+
+	function NodeOutlet(nID)
+	{
+		this.renderer = null;
+	};
+
+	NodeOutlet.prototype.handleEvent = function(evt) {
+		console.log(this,evt);
+		/*switch(evt.type) {
+			case 'click':
+		}*/
+	}
 
 	self.nodeInputMove = function(e)
 	{
