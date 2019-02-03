@@ -38,11 +38,26 @@ var iNode = (function() {
 		this.LinkPos = null;
 	};
 
-	Renderer.prototype.test = function()
+	Renderer.prototype.createElement = function(parent, name, params)
 	{
-		console.log(this);
-		return this.test;
+		var obj = document.createElementNS(svgURI, name);
+
+		for (var param in params) {
+			obj.setAttributeNS(null, param, params[param]);
+		}
+
+		parent.appendChild(obj);
+		return this;
 	};
+
+	Renderer.prototype.setElementAttribute = function(obj, params)
+	{
+		for (var param in params) {
+			obj.setAttributeNS(null, param, params[param]);
+		}
+		return this;
+	};
+
 
 	Renderer.prototype.addNode = function()
 	{
@@ -111,25 +126,6 @@ var iNode = (function() {
 	self.addLink = function()
 	{
 		self.createElement(self.pathsObj, 'path', {fill:'transparent', d:bezierCurve(500,500,200,200)});
-	};
-
-	self.createElement = function(parent, name, params)
-	{
-		var obj = document.createElementNS(self.nsURI, name);
-
-		for (var param in params) {
-			obj.setAttributeNS(null, param, params[param]);
-		}
-
-		parent.appendChild(obj);
-		return obj;
-	};
-
-	self.setElementAttribute = function(obj, params)
-	{
-		for (var param in params) {
-			obj.setAttributeNS(null, param, params[param]);
-		}
 	};
 
 	self.addEvent = function(object, event, callback, bubbles, passive)
