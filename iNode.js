@@ -126,6 +126,7 @@ var iNode = (function() {
 	function Node(nID)
 	{
 		this.renderer = null;
+		this.rect = {x: 0, y: 0, width: 100, height: 100};
 		this.inlet = {};
 		this.outlet = {};
 	};
