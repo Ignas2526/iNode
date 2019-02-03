@@ -46,7 +46,7 @@ var iNode = (function() {
 		return obj;
 	};
 
-	Renderer.prototype.addEvent = function(object, event, callback, bubbles, passive)
+	Renderer.prototype.addListener = function(object, event, callback, bubbles, passive)
 	{
 		passive = typeof passive == 'undefined' ? false : passive;
 		
@@ -73,7 +73,7 @@ var iNode = (function() {
 		}
 	};
 
-	Renderer.prototype.removeEvent = function(object, event, callback, bubbles, passive)
+	Renderer.prototype.removeLitener = function(object, event, callback, bubbles, passive)
 	{
 		passive = typeof passive == 'undefined' ? false : passive;
 		if (passiveEvents) {
