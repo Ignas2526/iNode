@@ -174,13 +174,17 @@ var iNode = (function() {
 	
 	/********* NodeInlet *********/
 	
-	function NodeInlet(nID)
+	function NodeInlet(DOMobj)
 	{
 		this.renderer = null;
+		this.DOMobj = DOMobj;
+		this.rect = {x: 0, y: 0, width: 0, height: 0};
+		
 	};
 
-	NodeInlet.prototype.handleEvent = function(evt) {
-		console.log(this,evt);
+	NodeInlet.prototype.handleEvent = function(evt)
+	{
+		//console.log(this,evt);
 		switch(evt.type) {
 			case 'mousedown': case 'touchstart':
 				document.body.classList.add('nse');
@@ -211,17 +215,20 @@ var iNode = (function() {
 					if (!this.renderer.node.hasOwnProperty(nID)) continue;
 					var node = this.renderer.node[nID];
 					for (var iID in node.inlet) {
-						if (!node.hasOwnProperty(iID)) continue;
+						if (!node.inlet.hasOwnProperty(iID)) continue;
 						var inlet = node.inlet[iID];
 
 						var dist = Math.sqrt(Math.pow((cursorPos.x-inlet.rect.x),2)+Math.pow((cursorPos.y-inlet.rect.y),2));
-						if (dis < distance) {
+
+						if (dist < distance) {
 							closestInlet = inlet;
 							distance = dist;
 						}
 					}
 						
-					console.log(node);
+					if (closestInlet) {
+						this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, closestInlet.rect.x, closestInlet.rect.y)});
+					}
 				}
 			break;
 		}
