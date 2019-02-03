@@ -46,6 +46,57 @@ var iNode = (function() {
 		return obj;
 	};
 
+	Renderer.prototype.addEvent = function(object, event, callback, bubbles, passive)
+	{
+		passive = typeof passive == 'undefined' ? false : passive;
+		
+		if (passiveEvents) {
+			var opts = {passive: passive, capture: bubbles};
+		} else {
+			var opts = bubbles;
+		}
+
+		switch(event) {
+			// Start implies that there will be an end event. Press means either a single click or a tap event.
+			case 'start': case 'press':
+				object.addEventListener('touchstart', callback, opts);
+				object.addEventListener('mousedown', callback, opts);
+			break;
+			case 'move':
+				object.addEventListener('touchmove', callback, opts);
+				object.addEventListener('mousemove', callback, opts);
+			break;
+			case 'end':
+				object.addEventListener('touchend', callback, opts);
+				object.addEventListener('mouseup', callback, opts);
+			break;
+		}
+	};
+
+	Renderer.prototype.removeEvent = function(object, event, callback, bubbles, passive)
+	{
+		passive = typeof passive == 'undefined' ? false : passive;
+		if (passiveEvents) {
+			var opts = {passive: passive, capture: bubbles};
+		} else {
+			var opts = bubbles;
+		}
+
+		switch(event) {
+			case 'start': case 'press':
+				object.removeEventListener('touchstart', callback, opts);
+				object.removeEventListener('mousedown', callback, opts);
+			break;
+			case 'move':
+				object.removeEventListener('touchmove', callback, opts);
+				object.removeEventListener('mousemove', callback, opts);
+			break;
+			case 'end':
+				object.removeEventListener('touchend', callback, opts);
+				object.removeEventListener('mouseup', callback, opts);
+			break;
+		}
+	};
 
 	Renderer.prototype.addNode = function(node, nID)
 	{
@@ -110,58 +161,6 @@ var iNode = (function() {
 	self.addLink = function()
 	{
 		self.createElement(self.pathsObj, 'path', {fill:'transparent', d:bezierCurve(500,500,200,200)});
-	};
-
-	self.addEvent = function(object, event, callback, bubbles, passive)
-	{
-		passive = typeof passive == 'undefined' ? false : passive;
-		
-		if (self.passiveEvents) {
-			var opts = {passive: passive, capture: bubbles};
-		} else {
-			var opts = bubbles;
-		}
-
-		switch(event) {
-			// Start implies that there will be an end event. Press means either a single click or a tap event.
-			case 'start': case 'press':
-				object.addEventListener('touchstart', callback, opts);
-				object.addEventListener('mousedown', callback, opts);
-			break;
-			case 'move':
-				object.addEventListener('touchmove', callback, opts);
-				object.addEventListener('mousemove', callback, opts);
-			break;
-			case 'end':
-				object.addEventListener('touchend', callback, opts);
-				object.addEventListener('mouseup', callback, opts);
-			break;
-		}
-	};
-
-	self.removeEvent = function(object, event, callback, bubbles, passive)
-	{
-		passive = typeof passive == 'undefined' ? false : passive;
-		if (self.passiveEvents) {
-			var opts = {passive: passive, capture: bubbles};
-		} else {
-			var opts = bubbles;
-		}
-
-		switch(event) {
-			case 'start': case 'press':
-				object.removeEventListener('touchstart', callback, opts);
-				object.removeEventListener('mousedown', callback, opts);
-			break;
-			case 'move':
-				object.removeEventListener('touchmove', callback, opts);
-				object.removeEventListener('mousemove', callback, opts);
-			break;
-			case 'end':
-				object.removeEventListener('touchend', callback, opts);
-				object.removeEventListener('mouseup', callback, opts);
-			break;
-		}
 	};
 
 	self.relativeCoordinates = function(pos)
