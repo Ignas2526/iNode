@@ -199,6 +199,26 @@ var iNode = (function() {
 				document.body.classList.remove('nse');
 				this.renderer.removeListener(document, 'move', this, true);
 				this.renderer.removeListener(document, 'end', this, true);
+
+				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
+
+				var closestInlet = null; var distance = Infinity;
+				for (var nID in this.renderer.node) {
+					if (!this.renderer.node.hasOwnProperty(nID)) continue;
+					var node = this.renderer.node[nID];
+					for (var iID in node.inlet) {
+						if (!node.hasOwnProperty(iID)) continue;
+						var inlet = node.inlet[iID];
+
+						var dist = Math.sqrt(Math.pow((cursorPos.x-inlet.rect.x),2)+Math.pow((cursorPos.y-inlet.rect.y),2));
+						if (dis < distance) {
+							closestInlet = inlet;
+							distance = dist;
+						}
+					}
+						
+					console.log(node);
+				}
 			break;
 		}
 	}
