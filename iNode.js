@@ -112,21 +112,20 @@ var iNode = (function() {
 	function Node(nID)
 	{
 		this.renderer = null;
-		this.input = {};
-		this.output = {};
+		this.inlet = {};
+		this.outlet = {};
 	};
 	
 	Node.prototype.handleEvent = function(evt) {
 		console.log(evt)
 	}
 
-	Node.prototype.addInlet = function(inlet, params)
+	Node.prototype.addInlet = function(inlet, id)
 	{
-		this.iID = (typeof iID == 'undefined') ? 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : iID;
-		this.input[iID] = {};
-		this.input[iID].obj = params.obj;
+		inlet.id = (typeof id == 'undefined') ? 'inlet' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
+		inlet.renderer = this.renderer;
 
-		this.renderer.addListener(this.input[iID].obj, 'start', this);
+		//this.renderer.addListener(this.input[id].obj, 'start', this);
 
 		return this;
 	};
