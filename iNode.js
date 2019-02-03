@@ -246,31 +246,6 @@ var iNode = (function() {
 			case 'click':
 		}*/
 	}
-
-	self.nodeInputMove = function(e)
-	{
-		var evt = e || window.event;
-		evt.preventDefault();
-
-		var cursorPos = self.relativeCoordinates({x:e.clientX, y:e.clientY});
-
-		self.setElementAttribute(self.Link, {d:bezierCurve(self.LinkPos.x, self.LinkPos.y, cursorPos.x, cursorPos.y)});
-	};
-
-	self.nodeInputStop = function(e)
-	{
-		var evt = e || window.event;
-		evt.preventDefault();
-
-		document.body.classList.remove('nse');
-		self.removeEvent(document, 'move', self.nodeInputMove, true);
-		self.removeEvent(document, 'end', self.nodeInputStop, true);
-	};
-
-	self.addLink = function()
-	{
-		self.createElement(self.pathsObj, 'path', {fill:'transparent', d:bezierCurve(500,500,200,200)});
-	};
 	
 	function bezierCurve(x0, y0, x1, y1)
 	{
