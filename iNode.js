@@ -155,7 +155,7 @@ var iNode = (function() {
 
 		var rect = inlet.DOMobj.getBoundingClientRect();
 		var coords = this.renderer.relativeCoordinates(rect);
-		inlet.rect = {x: coords.x, y: coords.y, width: rect.width, height: rect.height};
+		inlet.pos = {cx: coords.x + (rect.width / 2), cy: coords.y + (rect.height / 2)};
 		
 		return this;
 	};
@@ -177,7 +177,7 @@ var iNode = (function() {
 	{
 		this.renderer = null;
 		this.DOMobj = DOMobj;
-		this.rect = {x: 0, y: 0, width: 0, height: 0};
+		this.pos = {cx: 0, cy: 0};
 		
 	};
 
@@ -192,7 +192,7 @@ var iNode = (function() {
 
 				var rect = this.DOMobj.getBoundingClientRect();
 				this.Link = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
-				this.LinkPos = this.renderer.relativeCoordinates({x:rect.left + rect.width / 2, y: rect.top + rect.height / 2});
+				this.LinkPos = {x: this.pos.cx, y: this.pos.cy};
 			break;
 
 			case 'touchmove': case 'mousemove':
@@ -217,7 +217,7 @@ var iNode = (function() {
 						if (!node.inlet.hasOwnProperty(iID)) continue;
 						var inlet = node.inlet[iID];
 
-						var dist = Math.sqrt(Math.pow((cursorPos.x-inlet.rect.x),2)+Math.pow((cursorPos.y-inlet.rect.y),2));
+						var dist = Math.sqrt(Math.pow((cursorPos.x-inlet.pos.cx),2)+Math.pow((cursorPos.y-inlet.pos.cy),2));
 
 						if (dist < distance) {
 							closestInlet = inlet;
@@ -226,7 +226,7 @@ var iNode = (function() {
 					}
 						
 					if (closestInlet) {
-						this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, closestInlet.rect.x, closestInlet.rect.y)});
+						this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, closestInlet.pos.cx, closestInlet.pos.cy)});
 					}
 				}
 			break;
