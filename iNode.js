@@ -111,9 +111,14 @@ var iNode = (function() {
 
 	function Node(nID)
 	{
+		this.renderer = null;
 		this.input = {};
 		this.output = {};
 	};
+	
+	Node.prototype.handleEvent = function(evt) {
+		console.log(evt)
+	}
 
 	Node.prototype.addInput = function(iID, params)
 	{
@@ -121,8 +126,7 @@ var iNode = (function() {
 		this.input[iID] = {};
 		this.input[iID].obj = params.obj;
 
-		//this.renderer
-		// self.addEvent(self.node[nID].input[iID].obj, 'start', function(e){self.nodeInputStart(nID,iID,e)});
+		this.renderer.addListener(this.input[iID].obj, 'start', this);
 
 		return this;
 	};
