@@ -7,7 +7,9 @@ var iNode = (function() {
 	var xhtmlURI = 'http://www.w3.org/1999/xhtml';
 
 	var passiveEvents = false;
-
+	
+	/********* Renderer *********/
+	
 	function Renderer(svgObj)
 	{
 		this.svgObj = svgObj;
@@ -111,7 +113,9 @@ var iNode = (function() {
 
 		return this;
 	};
-
+	
+	/********* Node *********/
+	
 	function Node(nID)
 	{
 		this.renderer = null;
@@ -144,6 +148,7 @@ var iNode = (function() {
 		self.addEvent(document, 'end', self.nodeInputStop, true);
 	};
 	
+	/********* NodeInlet *********/
 	
 	function NodeInlet(nID)
 	{
@@ -156,7 +161,9 @@ var iNode = (function() {
 			case 'click':
 		}*/
 	}
-
+	
+	/********* NodeOutlet *********/
+	
 	function NodeOutlet(nID)
 	{
 		this.renderer = null;
