@@ -4,53 +4,63 @@ function bezierCurve(x0, y0, x1, y1)
 	return 'M' + x0 + ' ' + y0 + ' ' + 'C' + mx + ' ' + y0 + ' ' + mx + ' ' + y1 + ' ' + x1 + ' ' + y1;
 }
 
-function _iNode()
-{
+var iNode = (function() {
 	"use strict";
-	var self = this;
 
-	self.nsURI = 'http://www.w3.org/2000/svg';
-	self.svgObj = null;
-	self.svgRect = {top: 0, left: 0, x: 0, y: 0, width: 100, height: 100};
+	var self = {};
 
-	self.nodesObj = null;
-	self.pathsObj = null;
-	self.node = {};
-	self.passiveEvents = false;
+	var svgURI = 'http://www.w3.org/2000/svg';
+	var xhtmlURI = 'http://www.w3.org/1999/xhtml';
 
-	self.Link = null;
-	self.LinkPos = null;
+	var passiveEvents = false;
 
-	self.init = function(svgObj)
+	function Renderer(svgObj)
 	{
-		self.svgObj = svgObj;
+		this.svgObj = svgObj;
 
 		var rect = svgObj.getBoundingClientRect();
-		self.svgRect.top = rect.top;
-		self.svgRect.left = rect.left;
-		self.svgRect.x = 0;
-		self.svgRect.y = 0;
-		self.svgRect.width = rect.width;
-		self.svgRect.height = rect.height;
+		this.svgRect = {};
+		this.svgRect.top = rect.top;
+		this.svgRect.left = rect.left;
+		this.svgRect.x = 0;
+		this.svgRect.y = 0;
+		this.svgRect.width = rect.width;
+		this.svgRect.height = rect.height;
 
-		self.setElementAttribute(self.svgObj, {svgRect: self.svgRect.x + ' ' + self.svgRect.y + ' ' + self.svgRect.width + ' ' + self.svgRect.height});
+		this.setElementAttribute(this.svgObj, {svgRect: this.svgRect.x + ' ' + this.svgRect.y + ' ' + this.svgRect.width + ' ' + this.svgRect.height});
 
-		self.pathsObj = self.createElement(self.svgObj, 'g', {class:'inode_paths'});
-		self.nodesObj = self.createElement(self.svgObj, 'g', {class:'inode_nodes'});
+		this.pathsObj = this.createElement(this.svgObj, 'g', {class:'inode_paths'});
+		this.nodesObj = this.createElement(this.svgObj, 'g', {class:'inode_nodes'});
+
+		this.node = {};
+
+		this.Link = null;
+		this.LinkPos = null;
 	};
 
-	self.addNode = function(nID, params)
+	Renderer.prototype.test = function()
+	{
+		console.log(this);
+		return this.test;
+	};
+
+	Renderer.prototype.addNode = function()
+	{
+		return new Node();
+	};
+
+	function Node(nID)
+	{
+		if (typeof nID == 'undefined') nID = 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36);
+		if (typeof self.node[nID] != 'undefined') return false;
+	};
+
+	Node.prototype.add = function(nID, params)
 	{
 		if (typeof nID == 'undefined') nID = 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36);
 		if (typeof self.node[nID] != 'undefined') return false;
 		
-		self.node[nID] = {};
-		self.node[nID].input = {};
-		self.node[nID].output = {};
-		self.node[nID].gObj = self.createElement(self.nodesObj, 'g', {class:'inode_node inode_'+ nID});
-		self.node[nID].fObj = self.createElement(self.node[nID].gObj, 'foreignObject', {x:10, y:10, width:180, height:180});
-		self.node[nID].fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content inode_'+ nID + '"><ul><li><strong>First</strong> item</li>  <li><em>Second</em> item</li> <li>Thrid item</li> </ul></div>';
-		return nID;
+		
 	};
 
 	self.addNodeInput = function(nID, iID, params)
@@ -180,5 +190,10 @@ function _iNode()
 		pos.y -= self.svgRect.top;
 		return pos;
 	}
-}
-var iNode = new _iNode();
+
+	return {
+		'Renderer': function(svgObj) {return new Renderer(svgObj);}
+		'Node': function(params) {return new Node(params);}
+	}
+
+})();
