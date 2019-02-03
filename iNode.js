@@ -168,17 +168,6 @@ var iNode = (function() {
 		
 		return this;
 	};
-
-	Node.prototype.nodeInputStart = function(nID, iID, e) {
-		var rect = self.node[nID].input[iID].obj.getBoundingClientRect();
-
-		self.Link = self.createElement(self.pathsObj, 'path', {fill:'transparent'});
-		self.LinkPos = self.relativeCoordinates({x:rect.left + rect.width / 2, y: rect.top + rect.height / 2});
-
-		document.body.classList.add('nse');
-		self.addEvent(document, 'move', self.nodeInputMove, true);
-		self.addEvent(document, 'end', self.nodeInputStop, true);
-	};
 	
 	/********* NodeInlet *********/
 	
