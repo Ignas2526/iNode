@@ -13,13 +13,7 @@ var iNode = (function() {
 		this.svgObj = svgObj;
 
 		var rect = svgObj.getBoundingClientRect();
-		this.svgRect = {};
-		this.svgRect.top = rect.top;
-		this.svgRect.left = rect.left;
-		this.svgRect.x = 0;
-		this.svgRect.y = 0;
-		this.svgRect.width = rect.width;
-		this.svgRect.height = rect.height;
+		this.svgRect = {top: rect.top, left: rect.left, x: 0, y: 0, width: rect.width, height: rect.height};
 
 		this.setElementAttribute(this.svgObj, {svgRect: this.svgRect.x + ' ' + this.svgRect.y + ' ' + this.svgRect.width + ' ' + this.svgRect.height});
 
@@ -82,7 +76,7 @@ var iNode = (function() {
 		return this;
 	};
 
-	self.nodeInputStart = function(nID, iID, e) {
+	Node.prototype.nodeInputStart = function(nID, iID, e) {
 		var rect = self.node[nID].input[iID].obj.getBoundingClientRect();
 
 		self.Link = self.createElement(self.pathsObj, 'path', {fill:'transparent'});
