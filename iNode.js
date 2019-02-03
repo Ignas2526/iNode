@@ -165,9 +165,30 @@ var iNode = (function() {
 
 	NodeInlet.prototype.handleEvent = function(evt) {
 		console.log(this,evt);
-		/*switch(evt.type) {
-			case 'click':
-		}*/
+		switch(evt.type) {
+			case 'mousedown': case 'touchstart':
+				document.body.classList.add('nse');
+				this.renderer.addListener(document, 'move', this, true);
+				this.renderer.addListener(document, 'end', this, true);
+
+				var rect = this.DOMobj.getBoundingClientRect();
+				this.Link = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
+				this.LinkPos = this.renderer.relativeCoordinates({x:rect.left + rect.width / 2, y: rect.top + rect.height / 2});
+			break;
+
+			case 'touchmove': case 'mousemove':
+				evt.preventDefault();
+				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
+				this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, cursorPos.x, cursorPos.y)});
+
+			break;
+
+			case 'mouseup': case 'touchend':
+				document.body.classList.remove('nse');
+				this.renderer.removeListener(document, 'move', this, true);
+				this.renderer.removeListener(document, 'end', this, true);
+			break;
+		}
 	}
 	
 	/********* NodeOutlet *********/
