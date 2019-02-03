@@ -114,6 +114,13 @@ var iNode = (function() {
 		return this;
 	};
 	
+	Renderer.prototype.relativeCoordinates = function(pos)
+	{
+		pos.x -= this.svgRect.left;
+		pos.y -= this.svgRect.top;
+		return pos;
+	}
+	
 	/********* Node *********/
 	
 	function Node(nID)
@@ -201,13 +208,6 @@ var iNode = (function() {
 	{
 		self.createElement(self.pathsObj, 'path', {fill:'transparent', d:bezierCurve(500,500,200,200)});
 	};
-
-	self.relativeCoordinates = function(pos)
-	{
-		pos.x -= self.svgRect.left;
-		pos.y -= self.svgRect.top;
-		return pos;
-	}
 	
 	function bezierCurve(x0, y0, x1, y1)
 	{
