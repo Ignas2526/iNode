@@ -41,7 +41,7 @@ var iNode = (function() {
 		}
 
 		parent.appendChild(obj);
-		return this;
+		return obj;
 	};
 
 	Renderer.prototype.setElementAttribute = function(obj, params)
@@ -49,7 +49,7 @@ var iNode = (function() {
 		for (var param in params) {
 			obj.setAttributeNS(null, param, params[param]);
 		}
-		return this;
+		return obj;
 	};
 
 
