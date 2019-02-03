@@ -53,37 +53,33 @@ var iNode = (function() {
 	};
 
 
-	Renderer.prototype.addNode = function()
+	Renderer.prototype.addNode = function(node, nID)
 	{
-		return new Node();
+		node.nID = (typeof nID == 'undefined') ? 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : nID;
+		this.node[node.nID] = node;
+		node.renderer = this;
+
+		node.gObj = this.createElement(this.nodesObj, 'g', {class:'inode_node inode_'+ node.nID});
+		node.fObj = this.createElement(node.gObj, 'foreignObject', {x:10, y:10, width:180, height:180});
+		node.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content inode_'+ node.nID + '"><ul><li><strong>First</strong> item</li>  <li><em>Second</em> item</li> <li>Thrid item</li> </ul></div>';
 	};
 
 	function Node(nID)
 	{
-		if (typeof nID == 'undefined') nID = 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36);
-		if (typeof self.node[nID] != 'undefined') return false;
+		this.input = {};
+		this.output = {};
 	};
 
-	Node.prototype.add = function(nID, params)
+	Node.prototype.addInput = function(iID, params)
 	{
-		if (typeof nID == 'undefined') nID = 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36);
-		if (typeof self.node[nID] != 'undefined') return false;
-		
-		
-	};
+		this.iID = (typeof iID == 'undefined') ? 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : iID;
+		this.input[iID] = {};
+		this.input[iID].obj = params.obj;
 
-	self.addNodeInput = function(nID, iID, params)
-	{
-		if (typeof self.node[nID] == 'undefined') return false;
+		//this.renderer
+		// self.addEvent(self.node[nID].input[iID].obj, 'start', function(e){self.nodeInputStart(nID,iID,e)});
 
-		if (typeof iID == 'undefined') iID = 'input' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36);
-		
-		self.node[nID].input[iID] = {};
-		self.node[nID].input[iID].obj = params.obj;
-
-		self.addEvent(self.node[nID].input[iID].obj, 'start', function(e){self.nodeInputStart(nID,iID,e)});
-
-		return iID;
+		return this;
 	};
 
 	self.nodeInputStart = function(nID, iID, e) {
