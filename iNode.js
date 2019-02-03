@@ -131,6 +131,17 @@ var iNode = (function() {
 		this.outlet = {};
 	};
 	
+	Node.prototype.setRect = function(rect)
+	{
+		this.rect = rect;
+		
+		if (this.renderer) {
+			this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
+		}
+		return this;
+	}
+
+	
 	Node.prototype.handleEvent = function(evt) {
 		console.log(evt)
 	}
