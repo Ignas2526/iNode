@@ -128,8 +128,8 @@ var iNode = (function() {
 	function Node(renderer)
 	{
 		this.rect = {x: 0, y: 0, width: 100, height: 100};
-		this.inlet = {};
-		this.outlet = {};
+		this.inlet = [];
+		this.outlet = [];
 		this.renderer = renderer;
 
 		this.gObj = this.renderer.createElement(this.renderer.nodesObj, 'g', {class:'inode_node'});
@@ -151,29 +151,27 @@ var iNode = (function() {
 		return this;
 	}
 	
-	Node.prototype.addInlet = function(inlet, id)
+	Node.prototype.addInlet = function(DOMobj)
 	{
-		inlet.id = (typeof id == 'undefined') ? 'inlet' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
-		inlet.renderer = this.renderer;
-		this.inlet[inlet.id] = inlet;
+		var nodeInlet = new NodeInlet(this.renderer, this, DOMobj);
+		this.inlet[this.inlet.length] = nodeInlet;
 
-		this.renderer.addListener(inlet.DOMobj, 'start', inlet);
-
-		var rect = inlet.DOMobj.getBoundingClientRect();
-		var coords = this.renderer.relativeCoordinates(rect);
-		inlet.pos = {cx: coords.x + (rect.width / 2), cy: coords.y + (rect.height / 2)};
-		
-		return this;
+		return nodeInlet;
 	};
 	
 	/********* NodeInlet *********/
 	
-	function NodeInlet(DOMobj)
+	function NodeInlet(renderer, node, DOMobj)
 	{
-		this.renderer = null;
-		this.DOMobj = DOMobj;
 		this.pos = {cx: 0, cy: 0};
-		
+		this.DOMobj = DOMobj;
+		this.node = node;
+		this.renderer = renderer;
+
+		var rect = this.DOMobj.getBoundingClientRect();
+		var coords = this.renderer.relativeCoordinates(rect);
+		this.pos = {cx: coords.x + (rect.width / 2), cy: coords.y + (rect.height / 2)};
+		this.renderer.addListener(this.DOMobj, 'start', this);
 	};
 
 	NodeInlet.prototype.handleEvent = function(evt)
