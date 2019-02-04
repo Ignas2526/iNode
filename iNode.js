@@ -101,22 +101,12 @@ var iNode = (function() {
 		}
 	};
 
-	Renderer.prototype.addNode = function(node, id)
+	Renderer.prototype.addNode = function(id)
 	{
-		node.id = (typeof id == 'undefined') ? 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
-		node.renderer = this;
-
-		node.gObj = this.createElement(this.nodesObj, 'g', {class:'inode_node inode_'+ node.id});
-		node.fObj = this.createElement(node.gObj, 'foreignObject', {x:node.rect.x, y:node.rect.y, width:node.rect.width, height:node.rect.height});
-		node.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content inode_'+ node.id + '"><ul>'+
-		'<li><strong>First</strong> item<div class="inlet"> </div></li>'+
-		'<li><em>Second</em> item<div class="inlet"> </div></li>'+
-		'<li>Thrid item<div class="inlet"> </div></li>'+
-		'</ul></div>';
-		
+		var node = new Node(this);
 		this.node[node.id] = node;
 
-		return this;
+		return node;
 	};
 	
 	Renderer.prototype.relativeCoordinates = function(pos)
@@ -136,21 +126,31 @@ var iNode = (function() {
 	
 	/********* Node *********/
 	
-	function Node(nID)
+	function Node(renderer)
 	{
-		this.renderer = null;
 		this.rect = {x: 0, y: 0, width: 100, height: 100};
 		this.inlet = {};
 		this.outlet = {};
+		this.renderer = renderer;
+
+		this.id = (typeof id == 'undefined') ? 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
+
+		this.gObj = this.renderer.createElement(this.renderer.nodesObj, 'g', {class:'inode_node inode_'+ this.id});
+		this.fObj = this.renderer.createElement(this.gObj, 'foreignObject', {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
+		this.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content inode_'+ this.id + '"><ul>'+
+		'<li><strong>First</strong> item<div class="inlet"> </div></li>'+
+		'<li><em>Second</em> item<div class="inlet"> </div></li>'+
+		'<li>Thrid item<div class="inlet"> </div></li>'+
+		'</ul></div>';
+
+		return this;
 	};
 	
 	Node.prototype.setRect = function(rect)
 	{
 		this.rect = rect;
+		this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
 		
-		if (this.renderer) {
-			this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
-		}
 		return this;
 	}
 	
@@ -261,7 +261,6 @@ var iNode = (function() {
 
 	return {
 		'Renderer': function(svgObj) {return new Renderer(svgObj);},
-		'Node': function(params) {return new Node(params);},
 		'NodeInlet': function(DOmobj) {return new NodeInlet(DOmobj);},
 		'NodeOutlet': function(DOmobj) {return new NodeOutlet(DOmobj);},
 		'Link': function() {return new Link();},
