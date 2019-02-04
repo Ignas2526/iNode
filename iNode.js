@@ -103,7 +103,7 @@ var iNode = (function() {
 	Renderer.prototype.addNode = function(id)
 	{
 		var node = new Node(this);
-		this.node[node.length] = node;
+		this.node[this.node.length] = node;
 
 		return node;
 	};
