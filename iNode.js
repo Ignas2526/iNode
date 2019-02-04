@@ -22,8 +22,7 @@ var iNode = (function() {
 		this.pathsObj = this.createElement(this.svgObj, 'g', {class:'inode_paths'});
 		this.nodesObj = this.createElement(this.svgObj, 'g', {class:'inode_nodes'});
 
-		this.node = {};
-
+		this.node = [];
 		this.link = {};
 		this.Link = null;
 		this.LinkPos = null;
@@ -104,7 +103,7 @@ var iNode = (function() {
 	Renderer.prototype.addNode = function(id)
 	{
 		var node = new Node(this);
-		this.node[node.id] = node;
+		this.node[node.length] = node;
 
 		return node;
 	};
@@ -133,11 +132,9 @@ var iNode = (function() {
 		this.outlet = {};
 		this.renderer = renderer;
 
-		this.id = (typeof id == 'undefined') ? 'node' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
-
-		this.gObj = this.renderer.createElement(this.renderer.nodesObj, 'g', {class:'inode_node inode_'+ this.id});
+		this.gObj = this.renderer.createElement(this.renderer.nodesObj, 'g', {class:'inode_node'});
 		this.fObj = this.renderer.createElement(this.gObj, 'foreignObject', {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
-		this.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content inode_'+ this.id + '"><ul>'+
+		this.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content"><ul>'+
 		'<li><strong>First</strong> item<div class="inlet"> </div></li>'+
 		'<li><em>Second</em> item<div class="inlet"> </div></li>'+
 		'<li>Thrid item<div class="inlet"> </div></li>'+
