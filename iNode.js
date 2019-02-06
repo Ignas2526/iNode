@@ -23,7 +23,7 @@ var iNode = (function() {
 		this.nodesObj = this.createElement(this.svgObj, 'g', {class:'inode_nodes'});
 
 		this.node = [];
-		this.link = {};
+		this.link = [];
 		this.Link = null;
 		this.LinkPos = null;
 	};
@@ -115,12 +115,12 @@ var iNode = (function() {
 		return pos;
 	}
 	
-	Renderer.prototype.addLink = function(link, id)
+	Renderer.prototype.addLink = function(inlet, outlet)
 	{
-		link.id = (typeof id == 'undefined') ? 'link' + new Date().getTime().toString(36) + parseInt(Math.random() * 72).toString(36) : id;
-		link.renderer = this;
+		var link = new Link(this, inlet, outlet);
+		this.link[this.link.length] = link;
 
-		this.link[link.id] = link;
+		return link;
 	}
 	
 	/********* Node *********/
@@ -241,11 +241,14 @@ var iNode = (function() {
 	}
 	
 	/********* Link *********/
-	function Link(nID)
+	function Link(renderer, inlet, outlet)
 	{
-		this.renderer = null;
-		this.nodeA = null;
-		this.nodeB = null;
+		this.renderer = renderer;
+		this.inlet = null;
+		this.outlet = null;
+
+		if (typeof inlet == 'undefined') this.inlet = inlet;
+		if (typeof outlet == 'undefined') this.outlet = outlet;
 	};
 	
 	function bezierCurve(x0, y0, x1, y1)
@@ -258,7 +261,6 @@ var iNode = (function() {
 		'Renderer': function(svgObj) {return new Renderer(svgObj);},
 		'NodeInlet': function(DOmobj) {return new NodeInlet(DOmobj);},
 		'NodeOutlet': function(DOmobj) {return new NodeOutlet(DOmobj);},
-		'Link': function() {return new Link();},
 	}
 
 })();
