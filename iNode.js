@@ -123,6 +123,27 @@ var iNode = (function() {
 		return link;
 	}
 	
+	Renderer.prototype.findClosestInlet = function(pos)
+	{
+		var closestInlet = null, distance = Infinity;
+
+		for (var nID = 0; nID < this.node.length; nID++) {
+			var node = this.node[nID];
+
+			for (var iID = 0; iID < node.inlet.length; iID++) {
+				var inlet = node.inlet[iID];
+
+				var dist = Math.sqrt(Math.pow((pos.x - inlet.pos.cx), 2) + Math.pow((pos.y - inlet.pos.cy), 2));
+
+				if (dist < distance) {
+					closestInlet = inlet;
+					distance = dist;
+				}
+			}
+		}
+		return closestInlet;
+	}
+	
 	/********* Node *********/
 	
 	function Node(renderer)
@@ -201,26 +222,9 @@ var iNode = (function() {
 				this.renderer.removeListener(document, 'end', this, true);
 
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
-
-				var closestInlet = null; var distance = Infinity;
-				for (var nID in this.renderer.node) {
-					if (!this.renderer.node.hasOwnProperty(nID)) continue;
-					var node = this.renderer.node[nID];
-					for (var iID in node.inlet) {
-						if (!node.inlet.hasOwnProperty(iID)) continue;
-						var inlet = node.inlet[iID];
-
-						var dist = Math.sqrt(Math.pow((cursorPos.x-inlet.pos.cx),2)+Math.pow((cursorPos.y-inlet.pos.cy),2));
-
-						if (dist < distance) {
-							closestInlet = inlet;
-							distance = dist;
-						}
-					}
-						
-					if (closestInlet) {
-						this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, closestInlet.pos.cx, closestInlet.pos.cy)});
-					}
+				var closestInlet = this.renderer.findClosestInlet(cursorPos);
+				if (closestInlet) {
+					this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, closestInlet.pos.cx, closestInlet.pos.cy)});
 				}
 			break;
 		}
