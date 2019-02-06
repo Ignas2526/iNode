@@ -329,8 +329,6 @@ var iNode = (function() {
 
 	return {
 		'Renderer': function(svgObj) {return new Renderer(svgObj);},
-		'NodeInlet': function(DOmobj) {return new NodeInlet(DOmobj);},
-		'NodeOutlet': function(DOmobj) {return new NodeOutlet(DOmobj);},
 	}
 
 })();
