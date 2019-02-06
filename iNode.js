@@ -144,6 +144,27 @@ var iNode = (function() {
 		return closestInlet;
 	}
 	
+	Renderer.prototype.findClosestOutlet = function(pos)
+	{
+		var closestOutlet = null, distance = Infinity;
+
+		for (var nID = 0; nID < this.node.length; nID++) {
+			var node = this.node[nID];
+
+			for (var oID = 0; oID < node.outlet.length; oID++) {
+				var outlet = node.outlet[oID];
+
+				var dist = Math.sqrt(Math.pow((pos.x - outlet.pos.cx), 2) + Math.pow((pos.y - outlet.pos.cy), 2));
+
+				if (dist < distance) {
+					closestOutlet = outlet;
+					distance = dist;
+				}
+			}
+		}
+		return closestOutlet;
+	}
+	
 	/********* Node *********/
 	
 	function Node(renderer)
