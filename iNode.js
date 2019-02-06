@@ -261,16 +261,53 @@ var iNode = (function() {
 	
 	/********* NodeOutlet *********/
 	
-	function NodeOutlet(nID)
+	/********* NodeOutlet *********/
+	function NodeOutlet(renderer, node, DOMobj)
 	{
-		this.renderer = null;
+		this.pos = {cx: 0, cy: 0};
+		this.DOMobj = DOMobj;
+		this.node = node;
+		this.renderer = renderer;
+
+		var rect = this.DOMobj.getBoundingClientRect();
+		var coords = this.renderer.relativeCoordinates(rect);
+		this.pos = {cx: coords.x + (rect.width / 2), cy: coords.y + (rect.height / 2)};
+		this.renderer.addListener(this.DOMobj, 'start', this);
 	};
 
-	NodeOutlet.prototype.handleEvent = function(evt) {
-		console.log(this,evt);
-		/*switch(evt.type) {
-			case 'click':
-		}*/
+	NodeOutlet.prototype.handleEvent = function(evt)
+	{
+		switch(evt.type) {
+			case 'mousedown': case 'touchstart':
+				document.body.classList.add('nse');
+				this.renderer.addListener(document, 'move', this, true);
+				this.renderer.addListener(document, 'end', this, true);
+
+				var rect = this.DOMobj.getBoundingClientRect();
+				this.Link = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
+				this.LinkPos = {x: this.pos.cx, y: this.pos.cy};
+			break;
+
+			case 'touchmove': case 'mousemove':
+				evt.preventDefault();
+				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
+				this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, cursorPos.x, cursorPos.y)});
+
+			break;
+
+			case 'mouseup': case 'touchend':
+				document.body.classList.remove('nse');
+				this.renderer.removeListener(document, 'move', this, true);
+				this.renderer.removeListener(document, 'end', this, true);
+
+				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
+				var closestOutlet = this.renderer.findClosestInlet(cursorPos);
+				if (closestOutlet) {
+					this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, closestOutlet.pos.cx, closestOutlet.pos.cy)});
+				}
+
+			break;
+		}
 	}
 	
 	/********* Link *********/
