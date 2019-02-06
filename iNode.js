@@ -176,12 +176,6 @@ var iNode = (function() {
 
 		this.gObj = this.renderer.createElement(this.renderer.nodesObj, 'g', {class:'inode_node'});
 		this.fObj = this.renderer.createElement(this.gObj, 'foreignObject', {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
-		this.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content"><ul>'+
-		'<li><strong>First</strong> item<div class="inlet"> </div></li>'+
-		'<li><em>Second</em> item<div class="inlet"> </div></li>'+
-		'<li>Thrid item<div class="inlet"> </div></li>'+
-		'</ul></div>';
-
 		return this;
 	};
 	
