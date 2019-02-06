@@ -201,6 +201,14 @@ var iNode = (function() {
 		return nodeInlet;
 	};
 	
+	Node.prototype.addOutlet = function(DOMobj)
+	{
+		var nodeOutlet = new NodeOutlet(this.renderer, this, DOMobj);
+		this.outlet[this.outlet.length] = nodeOutlet;
+
+		return nodeOutlet;
+	};
+	
 	/********* NodeInlet *********/
 	
 	function NodeInlet(renderer, node, DOMobj)
