@@ -18,9 +18,13 @@
 				var svgObj = document.getElementById('node');
 				renderer = iNode.Renderer(svgObj);
 
-				node = iNode.Node();
-
-				renderer.addNode(node);
+				node = renderer.addNode();
+				node.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content"><ul>'+
+				'<li><strong>First</strong> item<div class="inlet"> </div></li>'+
+				'<li><em>Second</em> item<div class="inlet"> </div></li>'+
+				'<li>Thrid item<div class="inlet"> </div></li>'+
+				'</ul></div>';
+				node.setRect({x:10, y: 10, width: 200, height: 400});
 
 				var inlets = node.fObj.querySelectorAll('.inlet');
 				console.log(inlets);
@@ -30,9 +34,12 @@
 					node.addInlet(inlet);
 				}
 
-				node = iNode.Node();
-
-				renderer.addNode(node);
+				node = renderer.addNode();
+				node.fObj.innerHTML = '<div xmlns="http://www.w3.org/1999/xhtml" class="inode_node_content"><ul>'+
+				'<li><strong>First</strong> item<div class="inlet"> </div></li>'+
+				'<li><em>Second</em> item<div class="inlet"> </div></li>'+
+				'<li>Thrid item<div class="inlet"> </div></li>'+
+				'</ul></div>';
 
 				node.setRect({x:200, y: 200, width: 300, height: 400});
 
