@@ -24,8 +24,7 @@ var iNode = (function() {
 
 		this.node = [];
 		this.link = [];
-		this.Link = null;
-		this.LinkPos = null;
+		this.tmpLinkObj = this.createElement(this.pathsObj, 'path', {fill:'transparent'});
 	};
 
 	Renderer.prototype.createElement = function(parent, name, params)
@@ -226,16 +225,13 @@ var iNode = (function() {
 				document.body.classList.add('nse');
 				this.renderer.addListener(document, 'move', this, true);
 				this.renderer.addListener(document, 'end', this, true);
-
-				var rect = this.DOMobj.getBoundingClientRect();
-				this.Link = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
-				this.LinkPos = {x: this.pos.cx, y: this.pos.cy};
+				this.renderer.tmpLinkObj.style.display = '';
 			break;
 
 			case 'touchmove': case 'mousemove':
 				evt.preventDefault();
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
-				this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, cursorPos.x, cursorPos.y)});
+				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
 
 			break;
 
@@ -243,7 +239,8 @@ var iNode = (function() {
 				document.body.classList.remove('nse');
 				this.renderer.removeListener(document, 'move', this, true);
 				this.renderer.removeListener(document, 'end', this, true);
-
+				this.renderer.tmpLinkObj.style.display = 'none';
+				
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
 				var closestInlet = this.renderer.findClosestInlet(cursorPos);
 				if (closestInlet) {
@@ -275,16 +272,13 @@ var iNode = (function() {
 				document.body.classList.add('nse');
 				this.renderer.addListener(document, 'move', this, true);
 				this.renderer.addListener(document, 'end', this, true);
-
-				var rect = this.DOMobj.getBoundingClientRect();
-				this.Link = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
-				this.LinkPos = {x: this.pos.cx, y: this.pos.cy};
+				this.renderer.tmpLinkObj.style.display = '';
 			break;
 
 			case 'touchmove': case 'mousemove':
 				evt.preventDefault();
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
-				this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, cursorPos.x, cursorPos.y)});
+				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
 
 			break;
 
@@ -292,6 +286,7 @@ var iNode = (function() {
 				document.body.classList.remove('nse');
 				this.renderer.removeListener(document, 'move', this, true);
 				this.renderer.removeListener(document, 'end', this, true);
+				this.renderer.tmpLinkObj.style.display = 'none';
 
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
 				var closestOutlet = this.renderer.findClosestInlet(cursorPos);
