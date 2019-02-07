@@ -308,11 +308,11 @@ var iNode = (function() {
 	function Link(renderer, inlet, outlet)
 	{
 		this.renderer = renderer;
-		this.inlet = null;
-		this.outlet = null;
+		this.inlet = inlet;
+		this.outlet = outlet;
+		this.pathObj = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
 
-		if (typeof inlet == 'undefined') this.inlet = inlet;
-		if (typeof outlet == 'undefined') this.outlet = outlet;
+		this.renderer.setElementAttribute(this.pathObj, {d:bezierCurve(inlet.pos.cx, inlet.pos.cy, outlet.pos.cx, outlet.pos.cy)});
 	};
 	
 	function bezierCurve(x0, y0, x1, y1)
