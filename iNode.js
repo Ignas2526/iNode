@@ -255,7 +255,6 @@ var iNode = (function() {
 	
 	/********* NodeOutlet *********/
 	
-	/********* NodeOutlet *********/
 	function NodeOutlet(renderer, node, DOMobj)
 	{
 		this.pos = {cx: 0, cy: 0};
@@ -305,6 +304,7 @@ var iNode = (function() {
 	}
 	
 	/********* Link *********/
+	
 	function Link(renderer, inlet, outlet)
 	{
 		this.renderer = renderer;
