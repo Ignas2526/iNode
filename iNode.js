@@ -107,19 +107,25 @@ var iNode = (function() {
 		return node;
 	};
 	
+	Renderer.prototype.addLink = function(inlet, outlet)
+	{
+		if (typeof inlet == 'undefined' || typeof outlet == 'undefined') return false;
+
+		for (var lID = 0; lID < this.link.length; lID++) {
+			if (this.link[lID].inlet == inlet && this.link[lID].outlet == outlet) return false;
+		}
+
+		var link = new Link(this, inlet, outlet);
+		this.link[this.link.length] = link;
+
+		return link;
+	}
+	
 	Renderer.prototype.relativeCoordinates = function(pos)
 	{
 		pos.x -= this.svgRect.left;
 		pos.y -= this.svgRect.top;
 		return pos;
-	}
-	
-	Renderer.prototype.addLink = function(inlet, outlet)
-	{
-		var link = new Link(this, inlet, outlet);
-		this.link[this.link.length] = link;
-
-		return link;
 	}
 	
 	Renderer.prototype.findClosestInlet = function(pos)
