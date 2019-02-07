@@ -242,11 +242,11 @@ var iNode = (function() {
 				this.renderer.tmpLinkObj.style.display = 'none';
 				
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
-				var closestInlet = this.renderer.findClosestInlet(cursorPos);
-				if (closestInlet) {
-					this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, closestInlet.pos.cx, closestInlet.pos.cy)});
+				var closestOutlet = this.renderer.findClosestOutlet(cursorPos);
+				if (closestOutlet) {
+					this.renderer.addLink(this, closestOutlet);
 				}
-			break;
+				break;
 		}
 	}
 	
@@ -289,12 +289,11 @@ var iNode = (function() {
 				this.renderer.tmpLinkObj.style.display = 'none';
 
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
-				var closestOutlet = this.renderer.findClosestInlet(cursorPos);
-				if (closestOutlet) {
-					this.renderer.setElementAttribute(this.Link, {d:bezierCurve(this.LinkPos.x, this.LinkPos.y, closestOutlet.pos.cx, closestOutlet.pos.cy)});
+				var closestInlet = this.renderer.findClosestInlet(cursorPos);
+				if (closestInlet) {
+					this.renderer.addLink(closestInlet, this);
 				}
-
-			break;
+				break;
 		}
 	}
 	
