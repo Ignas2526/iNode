@@ -112,6 +112,7 @@ var iNode = (function() {
 	{
 		if (typeof inlet == 'undefined' || typeof outlet == 'undefined') return false;
 
+		// Ensure that such link doesn't exist
 		for (var lID = 0; lID < this.link.length; lID++) {
 			if (this.link[lID].inlet == inlet && this.link[lID].outlet == outlet) return false;
 		}
