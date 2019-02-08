@@ -24,6 +24,7 @@ var iNode = (function() {
 
 		this.node = [];
 		this.link = [];
+
 		this.tmpLinkObj = this.createElement(this.pathsObj, 'path', {fill:'transparent'});
 	};
 
@@ -119,14 +120,14 @@ var iNode = (function() {
 		this.link[this.link.length] = link;
 
 		return link;
-	}
+	};
 	
 	Renderer.prototype.relativeCoordinates = function(pos)
 	{
 		pos.x -= this.svgRect.left;
 		pos.y -= this.svgRect.top;
 		return pos;
-	}
+	};
 	
 	Renderer.prototype.findClosestInlet = function(pos)
 	{
@@ -147,7 +148,7 @@ var iNode = (function() {
 			}
 		}
 		return closestInlet;
-	}
+	};
 	
 	Renderer.prototype.findClosestOutlet = function(pos)
 	{
@@ -168,7 +169,7 @@ var iNode = (function() {
 			}
 		}
 		return closestOutlet;
-	}
+	};
 	
 	/********* Node *********/
 	
@@ -190,7 +191,7 @@ var iNode = (function() {
 		this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
 		
 		return this;
-	}
+	};
 	
 	Node.prototype.addInlet = function(DOMobj)
 	{
@@ -254,7 +255,7 @@ var iNode = (function() {
 				}
 				break;
 		}
-	}
+	};
 	
 	/********* NodeOutlet *********/
 	
@@ -301,7 +302,7 @@ var iNode = (function() {
 				}
 				break;
 		}
-	}
+	};
 	
 	/********* Link *********/
 	
@@ -319,10 +320,10 @@ var iNode = (function() {
 	{
 		var mx = x0 + (x1 - x0) / 2;
 		return 'M' + x0 + ' ' + y0 + ' ' + 'C' + mx + ' ' + y0 + ' ' + mx + ' ' + y1 + ' ' + x1 + ' ' + y1;
-	}
+	};
 
 	return {
 		'Renderer': function(svgObj) {return new Renderer(svgObj);},
-	}
+	};
 
 })();
