@@ -183,17 +183,77 @@ var iNode = (function() {
 
 		this.gObj = this.renderer.createElement(this.renderer.nodesObj, 'g', {class:'inode_node'});
 		this.fObj = this.renderer.createElement(this.gObj, 'foreignObject', {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
-		
+
 		this.nodeContent = document.createElement('div');
 		this.nodeContent.xmlns = xhtmlURI;
 		this.nodeContent.className = 'inode_node_content';
 		this.nodeContent.style.width = '100px';
 		this.nodeContent.style.height = '100px';
 		this.fObj.appendChild(this.nodeContent);
-		
+
+		this.renderer.addListener(this.fObj, 'start', this);
+
 		return this;
 	};
-	
+
+	Node.prototype.handleEvent = function(evt)
+	{
+		evt.stopPropagation();
+		switch(evt.type) {
+			case 'mousedown': case 'touchstart':
+				document.body.classList.add('nse');
+				this.renderer.addListener(document, 'move', this, true);
+				this.renderer.addListener(document, 'end', this, true);
+				this.previousPos = {x:evt.clientX, y:evt.clientY};
+				break;
+
+			case 'touchmove': case 'mousemove':
+				var cursorPos = {x:evt.clientX, y:evt.clientY};
+				var deltaPos = {x:cursorPos.x - this.previousPos.x, y: cursorPos.y - this.previousPos.y};
+				this.previousPos = cursorPos;
+
+				this.rect.x += deltaPos.x;
+				this.rect.y += deltaPos.y;
+				this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y});
+				this.updateLinkPosition(deltaPos);
+				break;
+
+			case 'mouseup': case 'touchend':
+				document.body.classList.remove('nse');
+				this.renderer.removeListener(document, 'move', this, true);
+				this.renderer.removeListener(document, 'end', this, true);
+				break;
+		}
+	};
+
+	Node.prototype.updateLinkPosition = function(deltaPos)
+	{
+		for (var i = 0; i < this.inlet.length; i++) {
+			var inlet = this.inlet[i];
+			inlet.pos.cx += deltaPos.x;
+			inlet.pos.cy += deltaPos.y;
+
+			for (var j = 0; j < this.renderer.link.length; j++) {
+				var link = this.renderer.link[j];
+				if (link.inlet != inlet) continue;
+				this.renderer.setElementAttribute(link.pathObj, {d:bezierCurveLink(inlet, link.outlet)});
+			}
+		}
+
+		for (var i = 0; i < this.outlet.length; i++) {
+			var outlet = this.outlet[i];
+			outlet.pos.cx += deltaPos.x;
+			outlet.pos.cy += deltaPos.y;
+
+			for (var j = 0; j < this.renderer.link.length; j++) {
+				var link = this.renderer.link[j];
+				if (link.outlet != outlet) continue;
+				this.renderer.setElementAttribute(link.pathObj, {d:bezierCurveLink(link.inlet, outlet)});
+			}
+		}
+	};
+
+
 	Node.prototype.setRect = function(rect)
 	{
 		this.rect = rect;
