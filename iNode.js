@@ -304,6 +304,7 @@ var iNode = (function() {
 				this.renderer.addListener(document, 'move', this, true);
 				this.renderer.addListener(document, 'end', this, true);
 				this.renderer.tmpLinkObj.style.display = '';
+				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
 				break;
 
 			case 'touchmove': case 'mousemove':
@@ -351,6 +352,7 @@ var iNode = (function() {
 				this.renderer.addListener(document, 'move', this, true);
 				this.renderer.addListener(document, 'end', this, true);
 				this.renderer.tmpLinkObj.style.display = '';
+				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
 				break;
 
 			case 'touchmove': case 'mousemove':
