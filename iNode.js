@@ -183,6 +183,14 @@ var iNode = (function() {
 
 		this.gObj = this.renderer.createElement(this.renderer.nodesObj, 'g', {class:'inode_node'});
 		this.fObj = this.renderer.createElement(this.gObj, 'foreignObject', {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
+		
+		this.nodeContent = document.createElement('div');
+		this.nodeContent.xmlns = xhtmlURI;
+		this.nodeContent.className = 'inode_node_content';
+		this.nodeContent.style.width = '100px';
+		this.nodeContent.style.height = '100px';
+		this.fObj.appendChild(this.nodeContent);
+		
 		return this;
 	};
 	
@@ -190,7 +198,9 @@ var iNode = (function() {
 	{
 		this.rect = rect;
 		this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
-		
+		this.nodeContent.style.width = this.rect.width+ 'px';
+		this.nodeContent.style.height = this.rect.height+ 'px';
+
 		return this;
 	};
 	
