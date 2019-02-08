@@ -284,20 +284,21 @@ var iNode = (function() {
 
 	NodeOutlet.prototype.handleEvent = function(evt)
 	{
+		evt.stopPropagation();
 		switch(evt.type) {
 			case 'mousedown': case 'touchstart':
 				document.body.classList.add('nse');
 				this.renderer.addListener(document, 'move', this, true);
 				this.renderer.addListener(document, 'end', this, true);
 				this.renderer.tmpLinkObj.style.display = '';
-			break;
+				break;
 
 			case 'touchmove': case 'mousemove':
 				evt.preventDefault();
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
 				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
 
-			break;
+				break;
 
 			case 'mouseup': case 'touchend':
 				document.body.classList.remove('nse');
