@@ -236,7 +236,7 @@ var iNode = (function() {
 			for (var j = 0; j < this.renderer.link.length; j++) {
 				var link = this.renderer.link[j];
 				if (link.inlet != inlet) continue;
-				this.renderer.setElementAttribute(link.pathObj, {d:bezierCurveLink(inlet, link.outlet)});
+				link.renderLink();
 			}
 		}
 
@@ -248,7 +248,7 @@ var iNode = (function() {
 			for (var j = 0; j < this.renderer.link.length; j++) {
 				var link = this.renderer.link[j];
 				if (link.outlet != outlet) continue;
-				this.renderer.setElementAttribute(link.pathObj, {d:bezierCurveLink(link.inlet, outlet)});
+				link.renderLink();
 			}
 		}
 	};
@@ -386,7 +386,7 @@ var iNode = (function() {
 		this.outlet = outlet;
 		this.pathObj = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
 
-		this.renderer.setElementAttribute(this.pathObj, {d:bezierCurve(inlet.pos.cx, inlet.pos.cy, outlet.pos.cx, outlet.pos.cy)});
+		this.renderLink();
 	};
 	
 	Link.prototype.renderLink = function()
