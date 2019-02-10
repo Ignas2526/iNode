@@ -406,6 +406,14 @@ var iNode = (function() {
 
 	return {
 		'Renderer': function(svgObj) {return new Renderer(svgObj);},
+		
+		'prototypes': {
+			'Renderer': Renderer.prototype,
+			'Node': Node.prototype,
+			'NodeInlet': NodeInlet.prototype,
+			'NodeOutlet': NodeOutlet.prototype,
+			'Link': Link.prototype,
+		}
 	};
 
 })();
