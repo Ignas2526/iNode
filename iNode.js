@@ -389,6 +389,15 @@ var iNode = (function() {
 		this.renderer.setElementAttribute(this.pathObj, {d:bezierCurve(inlet.pos.cx, inlet.pos.cy, outlet.pos.cx, outlet.pos.cy)});
 	};
 	
+	Link.prototype.renderLink = function()
+	{
+		var mx = this.inlet.pos.cx + (this.outlet.pos.cx - this.inlet.pos.cx) / 2;
+		var curve = 'M' + this.inlet.pos.cx + ' ' + this.inlet.pos.cy + ' ' +
+			'C' + mx + ' ' + this.inlet.pos.cy + ' ' + mx + ' ' + this.outlet.pos.cy +
+			' ' + this.outlet.pos.cx + ' ' + this.outlet.pos.cy;
+		this.renderer.setElementAttribute(this.pathObj, {d:curve});
+	}
+	
 	function bezierCurve(x0, y0, x1, y1)
 	{
 		var mx = x0 + (x1 - x0) / 2;
