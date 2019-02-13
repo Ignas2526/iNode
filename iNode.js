@@ -173,6 +173,17 @@ var iNode = (function() {
 		return closestOutlet;
 	};
 	
+	Renderer.prototype.setSVGviewBox = function(viewBox)
+	{
+		viewBox = viewBox || {};
+		if (viewBox.x) this.viewBox.x = viewBox.x;
+		if (viewBox.y) this.viewBox.y = viewBox.y;
+		if (viewBox.width) this.viewBox.width = viewBox.width;
+		if (viewBox.height) this.viewBox.height = viewBox.height;
+
+		this.setElementAttribute(this.svgObj, {viewBox: this.viewBox.x + ' ' + this.viewBox.y + ' ' + this.viewBox.width + ' ' + this.viewBox.height});
+	}
+	
 	/********* Node *********/
 	
 	function Node(renderer)
