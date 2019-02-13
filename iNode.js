@@ -18,7 +18,7 @@ var iNode = (function() {
 		this.rect = {top: rect.top, left: rect.left, width: rect.width, height: rect.height};
 		this.viewBox = {x: 0, y: 0, width: rect.width, height: rect.height};
 
-		this.setElementAttribute(this.svgObj, {viewBox: this.viewBox.x + ' ' + this.viewBox.y + ' ' + this.viewBox.width + ' ' + this.viewBox.height});
+		this.setSVGviewBox();
 
 		this.pathsObj = this.createElement(this.svgObj, 'g', {class:'inode_paths'});
 		this.nodesObj = this.createElement(this.svgObj, 'g', {class:'inode_nodes'});
