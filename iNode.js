@@ -126,8 +126,8 @@ var iNode = (function() {
 	
 	Renderer.prototype.relativeCoordinates = function(pos)
 	{
-		pos.x -= this.rect.left;
-		pos.y -= this.rect.top;
+		pos.x = pos.x - this.rect.left + this.viewBox.x;
+		pos.y = pos.y - this.rect.top + this.viewBox.y;
 		return pos;
 	};
 	
