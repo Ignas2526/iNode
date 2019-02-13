@@ -17,7 +17,8 @@ var iNode = (function() {
 		var rect = svgObj.getBoundingClientRect();
 		this.rect = {top: rect.top, left: rect.left, width: rect.width, height: rect.height};
 		this.viewBox = {x: 0, y: 0, width: rect.width, height: rect.height};
-
+		this.zoom = 1;
+		
 		this.setSVGviewBox();
 
 		this.pathsObj = this.createElement(this.svgObj, 'g', {class:'inode_paths'});
@@ -126,8 +127,8 @@ var iNode = (function() {
 	
 	Renderer.prototype.relativeCoordinates = function(pos)
 	{
-		pos.x = pos.x - this.rect.left + this.viewBox.x;
-		pos.y = pos.y - this.rect.top + this.viewBox.y;
+		pos.x = (pos.x - this.rect.left) / this.zoom + this.viewBox.x;
+		pos.y = (pos.y - this.rect.top) / this.zoom + this.viewBox.y;
 		return pos;
 	};
 	
@@ -182,6 +183,12 @@ var iNode = (function() {
 		if (viewBox.height) this.viewBox.height = viewBox.height;
 
 		this.setElementAttribute(this.svgObj, {viewBox: this.viewBox.x + ' ' + this.viewBox.y + ' ' + this.viewBox.width + ' ' + this.viewBox.height});
+	}
+	
+	Renderer.prototype.setZoom = function(zoom)
+	{
+		this.zoom = zoom;
+		this.setSVGviewBox({width: this.rect.width / this.zoom, height: this.rect.height / this.zoom});
 	}
 	
 	/********* Node *********/
