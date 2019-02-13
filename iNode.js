@@ -15,9 +15,10 @@ var iNode = (function() {
 		this.svgObj = svgObj;
 
 		var rect = svgObj.getBoundingClientRect();
-		this.svgRect = {top: rect.top, left: rect.left, x: 0, y: 0, width: rect.width, height: rect.height};
+		this.rect = {top: rect.top, left: rect.left, width: rect.width, height: rect.height};
+		this.viewBox = {x: 0, y: 0, width: rect.width, height: rect.height};
 
-		this.setElementAttribute(this.svgObj, {svgRect: this.svgRect.x + ' ' + this.svgRect.y + ' ' + this.svgRect.width + ' ' + this.svgRect.height});
+		this.setElementAttribute(this.svgObj, {viewBox: this.viewBox.x + ' ' + this.viewBox.y + ' ' + this.viewBox.width + ' ' + this.viewBox.height});
 
 		this.pathsObj = this.createElement(this.svgObj, 'g', {class:'inode_paths'});
 		this.nodesObj = this.createElement(this.svgObj, 'g', {class:'inode_nodes'});
@@ -125,8 +126,8 @@ var iNode = (function() {
 	
 	Renderer.prototype.relativeCoordinates = function(pos)
 	{
-		pos.x -= this.svgRect.left;
-		pos.y -= this.svgRect.top;
+		pos.x -= this.rect.left;
+		pos.y -= this.rect.top;
 		return pos;
 	};
 	
