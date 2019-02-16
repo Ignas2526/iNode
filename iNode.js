@@ -136,6 +136,15 @@ var iNode = (function() {
 
 		return link;
 	};
+
+	Renderer.prototype.removeLink = function(link)
+	{
+		var pos = this.link.indexOf(link);
+		if (pos == -1) return;
+
+		this.link[pos].destructor();
+		this.link.splice(pos,1);
+	};
 	
 	Renderer.prototype.relativeCoordinates = function(pos)
 	{
