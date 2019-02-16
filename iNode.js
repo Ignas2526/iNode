@@ -426,6 +426,8 @@ var iNode = (function() {
 	
 	function Link(renderer, inlet, outlet)
 	{
+		if (typeof inlet == 'undefined' || typeof outlet == 'undefined') return;
+		
 		this.renderer = renderer;
 		this.inlet = inlet;
 		this.outlet = outlet;
