@@ -7,6 +7,11 @@ var iNode = (function() {
 	var xhtmlURI = 'http://www.w3.org/1999/xhtml';
 
 	var passiveEvents = false;
+	// Detect if passive events are present. Added with Chrome 51, prevents preventDefault() function in the callback
+	try {
+		var opts = Object.defineProperty({}, 'passive', {get: function(){passiveEvents = true;}});
+		window.addEventListener('test', null, opts);
+	} catch (e) {}
 	
 	var fn = {};
 	fn.bezierCurve = function(x0, y0, x1, y1)
