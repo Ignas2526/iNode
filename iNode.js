@@ -428,7 +428,7 @@ var iNode = (function() {
 			'C' + mx + ' ' + this.inlet.pos.cy + ' ' + mx + ' ' + this.outlet.pos.cy +
 			' ' + this.outlet.pos.cx + ' ' + this.outlet.pos.cy;
 		this.renderer.setElementAttribute(this.pathObj, {d:curve});
-	}
+	};
 
 	return {
 		'Renderer': function(svgObj) {return new Renderer(svgObj);},
