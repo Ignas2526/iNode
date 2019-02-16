@@ -8,6 +8,13 @@ var iNode = (function() {
 
 	var passiveEvents = false;
 	
+	var fn = {};
+	fn.bezierCurve = function(x0, y0, x1, y1)
+	{
+		var mx = x0 + (x1 - x0) / 2;
+		return x0 + ' ' + y0 + ' ' + 'C' + mx + ' ' + y0 + ' ' + mx + ' ' + y1 + ' ' + x1 + ' ' + y1;
+	};
+	
 	/********* Renderer *********/
 	
 	function Renderer(svgObj)
@@ -328,7 +335,7 @@ var iNode = (function() {
 
 			case 'touchmove': case 'mousemove':
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
-				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
+				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:fn.bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
 
 				break;
 
@@ -377,7 +384,7 @@ var iNode = (function() {
 			case 'touchmove': case 'mousemove':
 				evt.preventDefault();
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
-				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
+				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:fn.bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
 
 				break;
 
@@ -416,12 +423,6 @@ var iNode = (function() {
 			' ' + this.outlet.pos.cx + ' ' + this.outlet.pos.cy;
 		this.renderer.setElementAttribute(this.pathObj, {d:curve});
 	}
-	
-	function bezierCurve(x0, y0, x1, y1)
-	{
-		var mx = x0 + (x1 - x0) / 2;
-		return 'M' + x0 + ' ' + y0 + ' ' + 'C' + mx + ' ' + y0 + ' ' + mx + ' ' + y1 + ' ' + x1 + ' ' + y1;
-	};
 
 	return {
 		'Renderer': function(svgObj) {return new Renderer(svgObj);},
