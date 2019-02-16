@@ -305,17 +305,17 @@ var iNode = (function() {
 		return this;
 	};
 	
-	Node.prototype.addInlet = function(DOMobj)
+	Node.prototype.addInlet = function(DOMobj, cfg)
 	{
-		var nodeInlet = new NodeInlet(this.renderer, this, DOMobj);
+		var nodeInlet = new NodeInlet(this.renderer, this, DOMobj, cfg);
 		this.inlet[this.inlet.length] = nodeInlet;
 
 		return nodeInlet;
 	};
 	
-	Node.prototype.addOutlet = function(DOMobj)
+	Node.prototype.addOutlet = function(DOMobj, cfg)
 	{
-		var nodeOutlet = new NodeOutlet(this.renderer, this, DOMobj);
+		var nodeOutlet = new NodeOutlet(this.renderer, this, DOMobj, cfg);
 		this.outlet[this.outlet.length] = nodeOutlet;
 
 		return nodeOutlet;
@@ -323,8 +323,9 @@ var iNode = (function() {
 	
 	/********* NodeInlet *********/
 	
-	function NodeInlet(renderer, node, DOMobj)
+	function NodeInlet(renderer, node, DOMobj, cfg)
 	{
+		cfg = cfg || {};
 		this.pos = {cx: 0, cy: 0};
 		this.DOMobj = DOMobj;
 		this.node = node;
@@ -371,8 +372,9 @@ var iNode = (function() {
 	
 	/********* NodeOutlet *********/
 	
-	function NodeOutlet(renderer, node, DOMobj)
+	function NodeOutlet(renderer, node, DOMobj, cfg)
 	{
+		cfg = cfg || {};
 		this.pos = {cx: 0, cy: 0};
 		this.DOMobj = DOMobj;
 		this.node = node;
