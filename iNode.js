@@ -330,6 +330,7 @@ var iNode = (function() {
 		this.DOMobj = DOMobj;
 		this.node = node;
 		this.renderer = renderer;
+		this.oneLink = typeof cfg.oneLink != 'undefined' ? cfg.oneLink : false;
 
 		var rect = this.DOMobj.getBoundingClientRect();
 		var coords = this.renderer.relativeCoordinates(rect);
@@ -379,6 +380,7 @@ var iNode = (function() {
 		this.DOMobj = DOMobj;
 		this.node = node;
 		this.renderer = renderer;
+		this.oneLink = typeof cfg.oneLink != 'undefined' ? cfg.oneLink : false;
 
 		var rect = this.DOMobj.getBoundingClientRect();
 		var coords = this.renderer.relativeCoordinates(rect);
