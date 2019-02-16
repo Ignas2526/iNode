@@ -499,7 +499,8 @@ var iNode = (function() {
 			'NodeInlet': NodeInlet.prototype,
 			'NodeOutlet': NodeOutlet.prototype,
 			'Link': Link.prototype,
-		}
+		},
+		'fn': fn
 	};
 
 })();
