@@ -40,6 +40,7 @@ var iNode = (function() {
 		this.link = [];
 
 		this.tmpLinkObj = this.createElement(this.pathsObj, 'path', {fill:'transparent'});
+		this.clicktime = 0;
 	};
 
 	Renderer.prototype.createElement = function(parent, name, params)
@@ -472,6 +473,21 @@ var iNode = (function() {
 		this.inlet = null;
 		this.outlet = null;
 		this.renderer = null;
+	};
+	
+	Link.prototype.handleEvent = function(evt)
+	{
+		evt.stopPropagation();
+		switch(evt.type) {
+			case 'mousedown': case 'touchstart':
+				var time = new Date().getTime();
+				if ((this.renderer.clicktime - time) < -700) {
+					this.renderer.clicktime = time;
+					return;
+				}
+				this.renderer.removeLink(this);
+				break;
+		}
 	};
 
 	return {
