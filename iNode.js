@@ -429,6 +429,14 @@ var iNode = (function() {
 			' ' + this.outlet.pos.cx + ' ' + this.outlet.pos.cy;
 		this.renderer.setElementAttribute(this.pathObj, {d:curve});
 	};
+	
+	Link.prototype.destructor = function()
+	{
+		this.renderer.destroyElement(this.pathObj);
+		this.inlet = null;
+		this.outlet = null;
+		this.renderer = null;
+	};
 
 	return {
 		'Renderer': function(svgObj) {return new Renderer(svgObj);},
