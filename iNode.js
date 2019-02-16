@@ -427,13 +427,35 @@ var iNode = (function() {
 	function Link(renderer, inlet, outlet)
 	{
 		if (typeof inlet == 'undefined' || typeof outlet == 'undefined') return;
-		
+
 		this.renderer = renderer;
+
+		// Honor inlet one link constraint
+		if (inlet.oneLink) {
+			for (var lID = 0; lID < this.renderer.link.length; lID++) {
+				if (this.renderer.link[lID].inlet == inlet) {
+					this.renderer.removeLink(this.renderer.link[lID]);
+				}
+			}
+		}
+
+		// Honor outlet one link constraint
+		if (outlet.oneLink) {
+			for (var lID = 0; lID < this.renderer.link.length; lID++) {
+				if (this.renderer.link[lID].outlet == outlet) {
+					this.renderer.removeLink(this.renderer.link[lID]);
+				}
+			}
+		}
+
 		this.inlet = inlet;
 		this.outlet = outlet;
+		this.curveOffset = {x:0, y:0};
 		this.pathObj = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
 
 		this.renderLink();
+
+		this.renderer.addListener(this.pathObj, 'press', this);
 	};
 	
 	Link.prototype.renderLink = function()
