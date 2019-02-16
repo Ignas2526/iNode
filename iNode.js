@@ -20,6 +20,40 @@ var iNode = (function() {
 		return Math.min(max, Math.max(min, value));
 	};
 	
+	fn.addEventListener = function(object, event, callback, bubbles, passive)
+	{
+		passive = typeof passive == 'undefined' ? false : passive;
+
+		if (passiveEvents) {
+			var opts = {passive: passive, capture: bubbles};
+		} else {
+			var opts = bubbles;
+		}
+
+		if (typeof event == 'string') {
+			object.addEventListener(event, callback, opts);
+		} else {
+			for (var i = 0; i < event.length; i++)
+				object.addEventListener(event[i], callback, opts);
+		}
+	};
+
+	fn.removeEventListener = function(object, event, callback, bubbles, passive)
+	{
+		passive = typeof passive == 'undefined' ? false : passive;
+		if (passiveEvents) {
+			var opts = {passive: passive, capture: bubbles};
+		} else {
+			var opts = bubbles;
+		}
+		if (typeof event == 'string') {
+			object.removeEventListener(event, callback, opts);
+		} else {
+			for (var i = 0; i < event.length; i++)
+				object.removeEventListener(event[i], callback, opts);
+		}
+	};
+	
 	/********* Renderer *********/
 	
 	function Renderer(svgObj)
