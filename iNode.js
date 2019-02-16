@@ -15,6 +15,11 @@ var iNode = (function() {
 		return x0 + ' ' + y0 + ' ' + 'C' + mx + ' ' + y0 + ' ' + mx + ' ' + y1 + ' ' + x1 + ' ' + y1;
 	};
 	
+	fn.clamp = function(value, min, max)
+	{
+		return Math.min(max, Math.max(min, value));
+	};
+	
 	/********* Renderer *********/
 	
 	function Renderer(svgObj)
