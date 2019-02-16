@@ -267,7 +267,7 @@ var iNode = (function() {
 		this.nodeContent.style.height = '100px';
 		this.fObj.appendChild(this.nodeContent);
 
-		this.renderer.addListener(this.fObj, 'start', this);
+		fn.addEventListener(this.fObj, ['touchstart', 'mousedown'], this);
 
 		return this;
 	};
@@ -278,8 +278,7 @@ var iNode = (function() {
 		switch(evt.type) {
 			case 'mousedown': case 'touchstart':
 				document.body.classList.add('nse');
-				this.renderer.addListener(document, 'move', this, true);
-				this.renderer.addListener(document, 'end', this, true);
+				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.previousPos = {x:evt.clientX, y:evt.clientY};
 				break;
 
@@ -296,8 +295,7 @@ var iNode = (function() {
 
 			case 'mouseup': case 'touchend':
 				document.body.classList.remove('nse');
-				this.renderer.removeListener(document, 'move', this, true);
-				this.renderer.removeListener(document, 'end', this, true);
+				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				break;
 		}
 	};
@@ -370,7 +368,7 @@ var iNode = (function() {
 		var rect = this.DOMobj.getBoundingClientRect();
 		var coords = this.renderer.relativeCoordinates(rect);
 		this.pos = {cx: coords.x + (rect.width / 2), cy: coords.y + (rect.height / 2)};
-		this.renderer.addListener(this.DOMobj, 'start', this);
+		fn.addEventListener(this.DOMobj, ['touchstart', 'mousedown'], this);
 	};
 
 	NodeInlet.prototype.handleEvent = function(evt)
@@ -379,8 +377,7 @@ var iNode = (function() {
 		switch(evt.type) {
 			case 'mousedown': case 'touchstart':
 				document.body.classList.add('nse');
-				this.renderer.addListener(document, 'move', this, true);
-				this.renderer.addListener(document, 'end', this, true);
+				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = '';
 				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
 				break;
@@ -393,8 +390,7 @@ var iNode = (function() {
 
 			case 'mouseup': case 'touchend':
 				document.body.classList.remove('nse');
-				this.renderer.removeListener(document, 'move', this, true);
-				this.renderer.removeListener(document, 'end', this, true);
+				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = 'none';
 
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
@@ -420,7 +416,7 @@ var iNode = (function() {
 		var rect = this.DOMobj.getBoundingClientRect();
 		var coords = this.renderer.relativeCoordinates(rect);
 		this.pos = {cx: coords.x + (rect.width / 2), cy: coords.y + (rect.height / 2)};
-		this.renderer.addListener(this.DOMobj, 'start', this);
+		fn.addEventListener(this.DOMobj, ['touchstart', 'mousedown'], this);
 	};
 
 	NodeOutlet.prototype.handleEvent = function(evt)
@@ -429,8 +425,7 @@ var iNode = (function() {
 		switch(evt.type) {
 			case 'mousedown': case 'touchstart':
 				document.body.classList.add('nse');
-				this.renderer.addListener(document, 'move', this, true);
-				this.renderer.addListener(document, 'end', this, true);
+				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = '';
 				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
 				break;
@@ -489,7 +484,7 @@ var iNode = (function() {
 
 		this.renderLink();
 
-		this.renderer.addListener(this.pathObj, 'press', this);
+		fn.addEventListener(this.pathObj, ['touchstart', 'mousedown'], this);
 	};
 	
 	Link.prototype.renderLink = function()
