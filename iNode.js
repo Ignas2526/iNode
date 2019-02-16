@@ -209,7 +209,7 @@ var iNode = (function() {
 	
 	Renderer.prototype.setZoom = function(zoom)
 	{
-		zoom = fn.clamp(0.02, 50, zoom);
+		zoom = fn.clamp(zoom, 0.02, 50);
 		this.zoom = zoom;
 		this.setSVGviewBox({width: this.rect.width / this.zoom, height: this.rect.height / this.zoom});
 	}
