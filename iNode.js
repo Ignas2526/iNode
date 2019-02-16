@@ -450,7 +450,6 @@ var iNode = (function() {
 
 		this.inlet = inlet;
 		this.outlet = outlet;
-		this.curveOffset = {x:0, y:0};
 		this.pathObj = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
 
 		this.renderLink();
