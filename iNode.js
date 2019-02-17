@@ -77,7 +77,8 @@ var iNode = (function() {
 
 		this.node = [];
 		this.link = [];
-
+		
+		fn.addEventListener(this.svgObj, 'wheel', this);
 		this.tmpLinkObj = this.createElement(this.pathsObj, 'path', {fill:'transparent'});
 		this.clicktime = 0;
 	};
@@ -192,13 +193,45 @@ var iNode = (function() {
 		if (viewBox.height) this.viewBox.height = viewBox.height;
 
 		this.setElementAttribute(this.svgObj, {viewBox: this.viewBox.x + ' ' + this.viewBox.y + ' ' + this.viewBox.width + ' ' + this.viewBox.height});
-	}
+	};
 	
 	Renderer.prototype.setZoom = function(zoom)
 	{
 		zoom = fn.clamp(zoom, 0.02, 50);
 		this.zoom = zoom;
 		this.setSVGviewBox({width: this.rect.width / this.zoom, height: this.rect.height / this.zoom});
+	};
+	
+	Renderer.prototype.handleEvent = function(evt)
+	{
+		switch(evt.type) {
+			case 'wheel':
+				if (evt.ctrlKey || evt.metaKey) {
+					var pos = this.relativeCoordinates({x: evt.clientX, y: evt.clientY});
+					var newZoom = this.zoom + evt.deltaY / 100;
+					newZoom = fn.clamp(newZoom, 0.02, 50);
+
+					// The maximum possible zoom for x and y offet, to zoom into bottom-right corner
+					var maxX = this.viewBox.width - this.rect.width / newZoom;
+					var maxY = this.viewBox.height - this.rect.height / newZoom;
+					
+					// Percentage we are from the top-left corner to the bottom-right corner
+					var percentX = (pos.x - this.viewBox.x) / this.viewBox.width;
+					var percentY = (pos.y - this.viewBox.y) / this.viewBox.height;
+
+					this.viewBox.x += maxX * percentX;
+					this.viewBox.y += maxY * percentY;
+					
+					this.setZoom(newZoom);
+					this.setSVGviewBox();
+
+				} else {
+					this.viewBox.x += evt.deltaX;
+					this.viewBox.y += evt.deltaY;
+					this.setSVGviewBox();
+				}
+				break; 
+		}
 	}
 	
 	/********* Node *********/
