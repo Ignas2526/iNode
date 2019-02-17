@@ -359,6 +359,12 @@ var iNode = (function() {
 
 	NodeInlet.prototype.destructor = function()
 	{
+		for (var i = 0; i < this.renderer.link.length; i++) {
+			var link = this.renderer.link[i];
+			if (link.inlet != this) continue;
+			this.renderer.removeLink(link);
+		}
+
 		fn.removeEventListener(this.DOMobj, ['touchstart', 'mousedown'], this);
 		this.node = null;
 		this.renderer = null;
@@ -414,6 +420,12 @@ var iNode = (function() {
 
 	NodeOutlet.prototype.destructor = function()
 	{
+		for (var i = 0; i < this.renderer.link.length; i++) {
+			var link = this.renderer.link[i];
+			if (link.outlet != this) continue;
+			this.renderer.removeLink(link);
+		}
+
 		fn.removeEventListener(this.DOMobj, ['touchstart', 'mousedown'], this);
 		this.node = null;
 		this.renderer = null;
