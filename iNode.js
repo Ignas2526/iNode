@@ -258,34 +258,6 @@ var iNode = (function() {
 		return this;
 	};
 
-	Node.prototype.handleEvent = function(evt)
-	{
-		evt.stopPropagation();
-		switch(evt.type) {
-			case 'touchstart': case 'mousedown':
-				document.body.classList.add('nse');
-				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
-				this.previousPos = {x:evt.clientX, y:evt.clientY};
-				break;
-
-			case 'touchmove': case 'mousemove':
-				var cursorPos = {x:evt.clientX, y:evt.clientY};
-				var deltaPos = {x:(cursorPos.x - this.previousPos.x) / this.renderer.zoom, y: (cursorPos.y - this.previousPos.y) / this.renderer.zoom};
-				this.previousPos = cursorPos;
-
-				this.rect.x += deltaPos.x;
-				this.rect.y += deltaPos.y;
-				this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y});
-				this.updateLinkPosition(deltaPos);
-				break;
-
-			case 'touchend': case 'mouseup':
-				document.body.classList.remove('nse');
-				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
-				break;
-		}
-	};
-
 	Node.prototype.updateLinkPosition = function(deltaPos)
 	{
 		for (var i = 0; i < this.inlet.length; i++) {
@@ -355,6 +327,34 @@ var iNode = (function() {
 		this.renderer.destroyElement(this.gObj);
 		this.controller = null;
 		this.renderer = null;
+	};
+
+	Node.prototype.handleEvent = function(evt)
+	{
+		evt.stopPropagation();
+		switch(evt.type) {
+			case 'touchstart': case 'mousedown':
+				document.body.classList.add('nse');
+				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
+				this.previousPos = {x:evt.clientX, y:evt.clientY};
+				break;
+
+			case 'touchmove': case 'mousemove':
+				var cursorPos = {x:evt.clientX, y:evt.clientY};
+				var deltaPos = {x:(cursorPos.x - this.previousPos.x) / this.renderer.zoom, y: (cursorPos.y - this.previousPos.y) / this.renderer.zoom};
+				this.previousPos = cursorPos;
+
+				this.rect.x += deltaPos.x;
+				this.rect.y += deltaPos.y;
+				this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y});
+				this.updateLinkPosition(deltaPos);
+				break;
+
+			case 'touchend': case 'mouseup':
+				document.body.classList.remove('nse');
+				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
+				break;
+		}
 	};
 
 	/********* NodeInlet *********/
