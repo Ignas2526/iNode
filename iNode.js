@@ -391,20 +391,20 @@ var iNode = (function() {
 	{
 		evt.stopPropagation();
 		switch(evt.type) {
-			case 'mousedown': case 'touchstart':
+			case 'touchstart': case 'mousedown':
 				document.body.classList.add('nse');
 				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = '';
 				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
 				break;
 
-			case 'touchmove': case 'mousemove':
+			case 'mousemove': case 'touchmove':
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
 				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:fn.bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
 
 				break;
 
-			case 'mouseup': case 'touchend':
+			case 'touchend': case 'mouseup':
 				document.body.classList.remove('nse');
 				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = 'none';
