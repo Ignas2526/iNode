@@ -12,19 +12,19 @@ var iNode = (function() {
 		var opts = Object.defineProperty({}, 'passive', {get: function(){passiveEvents = true;}});
 		window.addEventListener('test', null, opts);
 	} catch (e) {}
-	
+
 	var fn = {};
 	fn.bezierCurve = function(x0, y0, x1, y1)
 	{
 		var mx = x0 + (x1 - x0) / 2;
 		return x0 + ' ' + y0 + ' ' + 'C' + mx + ' ' + y0 + ' ' + mx + ' ' + y1 + ' ' + x1 + ' ' + y1;
 	};
-	
+
 	fn.clamp = function(value, min, max)
 	{
 		return Math.min(max, Math.max(min, value));
 	};
-	
+
 	fn.addEventListener = function(object, event, callback, bubbles, passive)
 	{
 		passive = typeof passive == 'undefined' ? false : passive;
@@ -58,9 +58,9 @@ var iNode = (function() {
 				object.removeEventListener(event[i], callback, opts);
 		}
 	};
-	
+
 	/********* Renderer *********/
-	
+
 	function Renderer(svgObj)
 	{
 		this.svgObj = svgObj;
@@ -110,7 +110,7 @@ var iNode = (function() {
 
 		return node;
 	};
-	
+
 	Renderer.prototype.addLink = function(inlet, outlet)
 	{
 		if (typeof inlet == 'undefined' || typeof outlet == 'undefined') return false;
@@ -134,14 +134,14 @@ var iNode = (function() {
 		this.link[pos].destructor();
 		this.link.splice(pos,1);
 	};
-	
+
 	Renderer.prototype.relativeCoordinates = function(pos)
 	{
 		pos.x = (pos.x - this.rect.left) / this.zoom + this.viewBox.x;
 		pos.y = (pos.y - this.rect.top) / this.zoom + this.viewBox.y;
 		return pos;
 	};
-	
+
 	Renderer.prototype.findClosestInlet = function(pos)
 	{
 		var closestInlet = null, distance = Infinity;
@@ -162,7 +162,7 @@ var iNode = (function() {
 		}
 		return closestInlet;
 	};
-	
+
 	Renderer.prototype.findClosestOutlet = function(pos)
 	{
 		var closestOutlet = null, distance = Infinity;
@@ -183,7 +183,7 @@ var iNode = (function() {
 		}
 		return closestOutlet;
 	};
-	
+
 	Renderer.prototype.setSVGviewBox = function(viewBox)
 	{
 		viewBox = viewBox || {};
@@ -194,14 +194,14 @@ var iNode = (function() {
 
 		this.setElementAttribute(this.svgObj, {viewBox: this.viewBox.x + ' ' + this.viewBox.y + ' ' + this.viewBox.width + ' ' + this.viewBox.height});
 	};
-	
+
 	Renderer.prototype.setZoom = function(zoom)
 	{
 		zoom = fn.clamp(zoom, 0.02, 50);
 		this.zoom = zoom;
 		this.setSVGviewBox({width: this.rect.width / this.zoom, height: this.rect.height / this.zoom});
 	};
-	
+
 	Renderer.prototype.handleEvent = function(evt)
 	{
 		switch(evt.type) {
@@ -233,9 +233,9 @@ var iNode = (function() {
 				break; 
 		}
 	}
-	
+
 	/********* Node *********/
-	
+
 	function Node(renderer)
 	{
 		this.rect = {x: 0, y: 0, width: 100, height: 100};
@@ -356,9 +356,9 @@ var iNode = (function() {
 		this.controller = null;
 		this.renderer = null;
 	};
-	
+
 	/********* NodeInlet *********/
-	
+
 	function NodeInlet(renderer, node, DOMobj, cfg)
 	{
 		cfg = cfg || {};
@@ -417,9 +417,9 @@ var iNode = (function() {
 				break;
 		}
 	};
-	
+
 	/********* NodeOutlet *********/
-	
+
 	function NodeOutlet(renderer, node, DOMobj, cfg)
 	{
 		cfg = cfg || {};
@@ -480,9 +480,9 @@ var iNode = (function() {
 				break;
 		}
 	};
-	
+
 	/********* Link *********/
-	
+
 	function Link(renderer, inlet, outlet)
 	{
 		if (typeof inlet == 'undefined' || typeof outlet == 'undefined') return;
@@ -515,7 +515,7 @@ var iNode = (function() {
 
 		fn.addEventListener(this.pathObj, ['touchstart', 'mousedown'], this);
 	};
-	
+
 	Link.prototype.renderLink = function()
 	{
 		var mx = this.inlet.pos.cx + (this.outlet.pos.cx - this.inlet.pos.cx) / 2;
@@ -524,7 +524,7 @@ var iNode = (function() {
 			' ' + this.outlet.pos.cx + ' ' + this.outlet.pos.cy;
 		this.renderer.setElementAttribute(this.pathObj, {d:curve});
 	};
-	
+
 	Link.prototype.destructor = function()
 	{
 		this.renderer.destroyElement(this.pathObj);
@@ -532,7 +532,7 @@ var iNode = (function() {
 		this.outlet = null;
 		this.renderer = null;
 	};
-	
+
 	Link.prototype.handleEvent = function(evt)
 	{
 		evt.stopPropagation();
