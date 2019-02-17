@@ -357,6 +357,13 @@ var iNode = (function() {
 		fn.addEventListener(this.DOMobj, ['touchstart', 'mousedown'], this);
 	};
 
+	NodeInlet.prototype.destructor = function()
+	{
+		fn.removeEventListener(this.DOMobj, ['touchstart', 'mousedown'], this);
+		this.node = null;
+		this.renderer = null;
+	};
+
 	NodeInlet.prototype.handleEvent = function(evt)
 	{
 		evt.stopPropagation();
@@ -403,6 +410,13 @@ var iNode = (function() {
 		var coords = this.renderer.relativeCoordinates(rect);
 		this.pos = {cx: coords.x + (rect.width / 2), cy: coords.y + (rect.height / 2)};
 		fn.addEventListener(this.DOMobj, ['touchstart', 'mousedown'], this);
+	};
+
+	NodeOutlet.prototype.destructor = function()
+	{
+		fn.removeEventListener(this.DOMobj, ['touchstart', 'mousedown'], this);
+		this.node = null;
+		this.renderer = null;
 	};
 
 	NodeOutlet.prototype.handleEvent = function(evt)
