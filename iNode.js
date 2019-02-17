@@ -262,7 +262,7 @@ var iNode = (function() {
 	{
 		evt.stopPropagation();
 		switch(evt.type) {
-			case 'mousedown': case 'touchstart':
+			case 'touchstart': case 'mousedown':
 				document.body.classList.add('nse');
 				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.previousPos = {x:evt.clientX, y:evt.clientY};
@@ -270,7 +270,7 @@ var iNode = (function() {
 
 			case 'touchmove': case 'mousemove':
 				var cursorPos = {x:evt.clientX, y:evt.clientY};
-				var deltaPos = {x:cursorPos.x - this.previousPos.x, y: cursorPos.y - this.previousPos.y};
+				var deltaPos = {x:(cursorPos.x - this.previousPos.x) / this.renderer.zoom, y: (cursorPos.y - this.previousPos.y) / this.renderer.zoom};
 				this.previousPos = cursorPos;
 
 				this.rect.x += deltaPos.x;
@@ -279,7 +279,7 @@ var iNode = (function() {
 				this.updateLinkPosition(deltaPos);
 				break;
 
-			case 'mouseup': case 'touchend':
+			case 'touchend': case 'mouseup':
 				document.body.classList.remove('nse');
 				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				break;
