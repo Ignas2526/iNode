@@ -339,6 +339,23 @@ var iNode = (function() {
 
 		return nodeOutlet;
 	};
+
+	Node.prototype.destructor = function()
+	{
+		for (var i = 0; i < this.inlet.length; i++) {
+			this.inlet[i].destructor();
+		}
+		this.inlet = null;
+
+		for (var i = 0; i < this.outlet.length; i++) {
+			this.outlet[i].destructor();
+		}
+		this.outlet = null;
+
+		this.renderer.destroyElement(this.gObj);
+		this.controller = null;
+		this.renderer = null;
+	};
 	
 	/********* NodeInlet *********/
 	
