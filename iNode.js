@@ -206,22 +206,23 @@ var iNode = (function() {
 	{
 		switch(evt.type) {
 			case 'wheel':
+				evt.preventDefault();
 				if (evt.ctrlKey || evt.metaKey) {
 					var pos = this.relativeCoordinates({x: evt.clientX, y: evt.clientY});
-					var newZoom = this.zoom + evt.deltaY / 100;
+					var newZoom = this.zoom - evt.deltaY / 100;
 					newZoom = fn.clamp(newZoom, 0.02, 50);
 
 					// The maximum possible zoom for x and y offet, to zoom into bottom-right corner
 					var maxX = this.viewBox.width - this.rect.width / newZoom;
 					var maxY = this.viewBox.height - this.rect.height / newZoom;
-					
+
 					// Percentage we are from the top-left corner to the bottom-right corner
 					var percentX = (pos.x - this.viewBox.x) / this.viewBox.width;
 					var percentY = (pos.y - this.viewBox.y) / this.viewBox.height;
 
 					this.viewBox.x += maxX * percentX;
 					this.viewBox.y += maxY * percentY;
-					
+
 					this.setZoom(newZoom);
 					this.setSVGviewBox();
 
@@ -230,9 +231,9 @@ var iNode = (function() {
 					this.viewBox.y += evt.deltaY;
 					this.setSVGviewBox();
 				}
-				break; 
+				break;
 		}
-	}
+	};
 
 	/********* Node *********/
 
