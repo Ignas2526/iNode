@@ -285,7 +285,6 @@ var iNode = (function() {
 		}
 	};
 
-
 	Node.prototype.setRect = function(rect)
 	{
 		this.rect = rect;
@@ -295,7 +294,7 @@ var iNode = (function() {
 
 		return this;
 	};
-	
+
 	Node.prototype.addInlet = function(DOMobj, cfg)
 	{
 		var nodeInlet = new NodeInlet(this.renderer, this, DOMobj, cfg);
@@ -303,13 +302,31 @@ var iNode = (function() {
 
 		return nodeInlet;
 	};
-	
+
+	Node.prototype.removeInlet = function(inlet)
+	{
+		var pos = this.inlet.indexOf(inlet);
+		if (pos == -1) return;
+
+		inlet.destructor();
+		this.inlet.splice(pos, 1);
+	};
+
 	Node.prototype.addOutlet = function(DOMobj, cfg)
 	{
 		var nodeOutlet = new NodeOutlet(this.renderer, this, DOMobj, cfg);
 		this.outlet[this.outlet.length] = nodeOutlet;
 
 		return nodeOutlet;
+	};
+
+	Node.prototype.removeOutlet = function(outlet)
+	{
+		var pos = this.outlet.indexOf(outlet);
+		if (pos == -1) return;
+
+		outlet.destructor();
+		this.outlet.splice(pos, 1);
 	};
 
 	Node.prototype.destructor = function()
