@@ -452,7 +452,7 @@ var iNode = (function() {
 	{
 		evt.stopPropagation();
 		switch(evt.type) {
-			case 'mousedown': case 'touchstart':
+			case 'touchstart': case 'mousedown':
 				document.body.classList.add('nse');
 				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = '';
@@ -466,10 +466,9 @@ var iNode = (function() {
 
 				break;
 
-			case 'mouseup': case 'touchend':
+			case 'touchend': case 'mouseup':
 				document.body.classList.remove('nse');
-				this.renderer.removeListener(document, 'move', this, true);
-				this.renderer.removeListener(document, 'end', this, true);
+				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = 'none';
 
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
@@ -512,7 +511,6 @@ var iNode = (function() {
 		this.pathObj = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
 
 		this.renderLink();
-
 		fn.addEventListener(this.pathObj, ['touchstart', 'mousedown'], this);
 	};
 
