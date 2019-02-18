@@ -1,13 +1,9 @@
-var DemoNodeConstructor = (function() {
+var BasicController = (function() {
 	"use strict";
 
-	function DemoNode(rect)
+	function DemoNode(node, nodeType, cfg)
 	{
-		this.rect = rect;
-	};
-
-	DemoNode.prototype.init = function(node)
-	{
+		this.rect = cfg;
 		node.nodeContent.innerHTML = '<ul>'+
 				'<li><div class="outlet">&gt;</div><strong>First</strong> item<div class="inlet">&gt;</div></li>'+
 				'<li><div class="outlet">&gt;</div><em>Second</em> item<div class="inlet">&gt;</div></li>'+
@@ -26,9 +22,13 @@ var DemoNodeConstructor = (function() {
 			var outlet  = node.addOutlet(outlets[i], {oneLink:false});
 			outlet.direction = 'left';
 		}
-	}
+	};
+
+	DemoNode.prototype.destructor = function()
+	{
+	};
 
 	return {
-		'DemoNode': function(rect) {return new DemoNode(rect);},
+		'Node': function(node, nodeType, cfg) {return new DemoNode(node, nodeType, cfg);}
 	};
 })();
