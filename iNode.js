@@ -61,7 +61,7 @@ var iNode = (function() {
 
 	/********* Renderer *********/
 
-	function Renderer(svgObj)
+	function Renderer(svgObj, controller)
 	{
 		this.svgObj = svgObj;
 
@@ -69,7 +69,8 @@ var iNode = (function() {
 		this.rect = {top: rect.top, left: rect.left, width: rect.width, height: rect.height};
 		this.viewBox = {x: 0, y: 0, width: rect.width, height: rect.height};
 		this.zoom = 1;
-		
+		this.controller = controller;
+
 		this.setSVGviewBox();
 
 		this.pathsObj = this.createElement(this.svgObj, 'g', {class:'inode_paths'});
@@ -77,7 +78,7 @@ var iNode = (function() {
 
 		this.node = [];
 		this.link = [];
-		
+
 		fn.addEventListener(this.svgObj, 'wheel', this);
 		this.tmpLinkObj = this.createElement(this.pathsObj, 'path', {fill:'transparent'});
 		this.clicktime = 0;
@@ -103,9 +104,9 @@ var iNode = (function() {
 		return obj;
 	};
 
-	Renderer.prototype.addNode = function(id)
+	Renderer.prototype.addNode = function(nodeType, cfg)
 	{
-		var node = new Node(this);
+		var node = new Node(this, nodeType, cfg);
 		this.node[this.node.length] = node;
 
 		return node;
@@ -237,7 +238,7 @@ var iNode = (function() {
 
 	/********* Node *********/
 
-	function Node(renderer)
+	function Node(renderer, nodeType, cfg)
 	{
 		this.rect = {x: 0, y: 0, width: 100, height: 100};
 		this.inlet = [];
@@ -256,6 +257,8 @@ var iNode = (function() {
 
 		fn.addEventListener(this.fObj, ['touchstart', 'mousedown'], this);
 
+		this.controller = this.renderer.controller.Node(this, nodeType, cfg);
+	
 		return this;
 	};
 
