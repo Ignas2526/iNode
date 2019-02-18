@@ -64,6 +64,12 @@ var iNode = (function() {
 	function Renderer(svgObj, controller)
 	{
 		this.svgObj = svgObj;
+		
+		this.svgObj.style.mozUserSelect = 'none';
+		this.svgObj.style.oUserSelect = 'none';
+		this.svgObj.style.webkitUserSelect = 'none';
+		this.svgObj.style.msUserSelect = 'none';
+		this.svgObj.style.userSelect = 'none';
 
 		var rect = svgObj.getBoundingClientRect();
 		this.rect = {top: rect.top, left: rect.left, width: rect.width, height: rect.height};
@@ -355,7 +361,6 @@ var iNode = (function() {
 		evt.stopPropagation();
 		switch(evt.type) {
 			case 'touchstart': case 'mousedown':
-				document.body.classList.add('nse');
 				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.previousPos = {x:evt.clientX, y:evt.clientY};
 				break;
@@ -372,7 +377,6 @@ var iNode = (function() {
 				break;
 
 			case 'touchend': case 'mouseup':
-				document.body.classList.remove('nse');
 				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				break;
 		}
@@ -413,7 +417,6 @@ var iNode = (function() {
 		evt.stopPropagation();
 		switch(evt.type) {
 			case 'touchstart': case 'mousedown':
-				document.body.classList.add('nse');
 				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = '';
 				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
@@ -426,7 +429,6 @@ var iNode = (function() {
 				break;
 
 			case 'touchend': case 'mouseup':
-				document.body.classList.remove('nse');
 				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = 'none';
 
@@ -474,7 +476,6 @@ var iNode = (function() {
 		evt.stopPropagation();
 		switch(evt.type) {
 			case 'touchstart': case 'mousedown':
-				document.body.classList.add('nse');
 				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = '';
 				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
@@ -488,7 +489,6 @@ var iNode = (function() {
 				break;
 
 			case 'touchend': case 'mouseup':
-				document.body.classList.remove('nse');
 				fn.removeEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = 'none';
 
