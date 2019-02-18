@@ -568,7 +568,7 @@ var iNode = (function() {
 	};
 
 	return {
-		'Renderer': function(svgObj) {return new Renderer(svgObj);},
+		'Renderer': function(DOMsvg, controller) {return new Renderer(DOMsvg, controller);},
 		
 		'prototypes': {
 			'Renderer': Renderer.prototype,
