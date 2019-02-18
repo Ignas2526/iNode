@@ -64,9 +64,9 @@
 		<script type="text/javascript">
 			window.addEventListener('load', function(e) {
 				var svgObj = document.getElementById('node');
-				renderer = iNode.Renderer(svgObj);
-				renderer.addNode(DemoNodeConstructor.DemoNode({x:110, y: 10, width: 200, height: 100}));
-				renderer.addNode(DemoNodeConstructor.DemoNode({x:400, y: 10, width: 200, height: 100}));
+				var renderer = iNode.Renderer(svgObj, BasicController);
+				renderer.addNode('DemoNode', {x:110, y: 10, width: 200, height: 100});
+				renderer.addNode('DemoNode', {x:400, y: 10, width: 200, height: 100});
 
 			});
 		</script>
