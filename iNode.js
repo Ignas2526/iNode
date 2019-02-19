@@ -171,7 +171,8 @@ var iNode = (function() {
 				}
 			}
 		}
-		return closestInlet;
+		if (distance < 100)
+			return closestInlet;
 	};
 
 	Renderer.prototype.findClosestOutlet = function(pos)
@@ -192,7 +193,8 @@ var iNode = (function() {
 				}
 			}
 		}
-		return closestOutlet;
+		if (distance < 100)
+			return closestOutlet;
 	};
 
 	Renderer.prototype.setSVGviewBox = function(viewBox)
