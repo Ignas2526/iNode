@@ -76,6 +76,14 @@ var iNode = (function() {
 		DOMobj.parentElement.removeChild(DOMobj);
 	};
 
+	fn.prototype.setElementAttribute = function(obj, params)
+	{
+		for (var param in params) {
+			obj.setAttributeNS(null, param, params[param]);
+		}
+		return obj;
+	};
+
 
 	/********* Renderer *********/
 
@@ -106,14 +114,6 @@ var iNode = (function() {
 		fn.addEventListener(this.svgObj, 'wheel', this);
 		this.tmpLinkObj = fn.createElement(this.pathsObj, 'path', {fill:'transparent'});
 		this.clicktime = 0;
-	};
-
-	Renderer.prototype.setElementAttribute = function(obj, params)
-	{
-		for (var param in params) {
-			obj.setAttributeNS(null, param, params[param]);
-		}
-		return obj;
 	};
 
 	Renderer.prototype.addNode = function(nodeType, cfg)
@@ -205,7 +205,7 @@ var iNode = (function() {
 		if (viewBox.width) this.viewBox.width = viewBox.width;
 		if (viewBox.height) this.viewBox.height = viewBox.height;
 
-		this.setElementAttribute(this.svgObj, {viewBox: this.viewBox.x + ' ' + this.viewBox.y + ' ' + this.viewBox.width + ' ' + this.viewBox.height});
+		fn.setElementAttribute(this.svgObj, {viewBox: this.viewBox.x + ' ' + this.viewBox.y + ' ' + this.viewBox.width + ' ' + this.viewBox.height});
 	};
 
 	Renderer.prototype.setZoom = function(zoom)
@@ -304,7 +304,7 @@ var iNode = (function() {
 	Node.prototype.setRect = function(rect)
 	{
 		this.rect = rect;
-		this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
+		fn.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
 		this.nodeContent.style.width = this.rect.width+ 'px';
 		this.nodeContent.style.height = this.rect.height+ 'px';
 
@@ -378,7 +378,7 @@ var iNode = (function() {
 
 				this.rect.x += deltaPos.x;
 				this.rect.y += deltaPos.y;
-				this.renderer.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y});
+				fn.setElementAttribute(this.fObj, {x:this.rect.x, y:this.rect.y});
 				this.updateLinkPosition(deltaPos);
 				break;
 
@@ -425,12 +425,12 @@ var iNode = (function() {
 			case 'touchstart': case 'mousedown':
 				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = '';
-				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
+				fn.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
 				break;
 
 			case 'mousemove': case 'touchmove':
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
-				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:fn.bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
+				fn.setElementAttribute(this.renderer.tmpLinkObj, {d:fn.bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
 
 				break;
 
@@ -484,13 +484,13 @@ var iNode = (function() {
 			case 'touchstart': case 'mousedown':
 				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
 				this.renderer.tmpLinkObj.style.display = '';
-				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
+				fn.setElementAttribute(this.renderer.tmpLinkObj, {d:''});
 				break;
 
 			case 'touchmove': case 'mousemove':
 				evt.preventDefault();
 				var cursorPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
-				this.renderer.setElementAttribute(this.renderer.tmpLinkObj, {d:fn.bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
+				fn.setElementAttribute(this.renderer.tmpLinkObj, {d:fn.bezierCurve(this.pos.cx, this.pos.cy, cursorPos.x, cursorPos.y)});
 
 				break;
 
@@ -547,7 +547,7 @@ var iNode = (function() {
 		var curve = 'M' + this.inlet.pos.cx + ' ' + this.inlet.pos.cy + ' ' +
 			'C' + mx + ' ' + this.inlet.pos.cy + ' ' + mx + ' ' + this.outlet.pos.cy +
 			' ' + this.outlet.pos.cx + ' ' + this.outlet.pos.cy;
-		this.renderer.setElementAttribute(this.pathObj, {d:curve});
+		fn.setElementAttribute(this.pathObj, {d:curve});
 	};
 
 	Link.prototype.destructor = function()
