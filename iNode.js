@@ -87,21 +87,20 @@ var iNode = (function() {
 
 	function Renderer(svgObj, controller)
 	{
+		this.controller = controller;
+
 		this.svgObj = svgObj;
-		
 		this.svgObj.style.mozUserSelect = 'none';
 		this.svgObj.style.oUserSelect = 'none';
 		this.svgObj.style.webkitUserSelect = 'none';
 		this.svgObj.style.msUserSelect = 'none';
 		this.svgObj.style.userSelect = 'none';
 
-		var rect = svgObj.getBoundingClientRect();
-		this.rect = {top: rect.top, left: rect.left, width: rect.width, height: rect.height};
-		this.viewBox = {x: 0, y: 0, width: rect.width, height: rect.height};
+		this.rect = {top: 0, left: 0, width: 0, height: 0};
+		this.viewBox = {x: 0, y: 0, width: 0, height: 0};
 		this.zoom = 1;
-		this.controller = controller;
 
-		this.updateViewBox();
+		this.updateRect();
 
 		this.pathsObj = fn.createElement(this.svgObj, 'g', {class:'inode_paths'});
 		this.nodesObj = fn.createElement(this.svgObj, 'g', {class:'inode_nodes'});
@@ -195,6 +194,20 @@ var iNode = (function() {
 		}
 		if (distance < 100)
 			return closestOutlet;
+	};
+
+	Renderer.prototype.updateRect = function()
+	{
+		var rect = this.svgObj.getBoundingClientRect();
+
+		this.rect.top = rect.top;
+		this.rect.left = rect.left;
+		this.rect.width = rect.width;
+		this.rect.height = rect.height;
+
+		this.viewBox.width = this.rect.width / this.zoom;
+		this.viewBox.height = this.rect.height / this.zoom;
+		this.updateViewBox();
 	};
 
 	Renderer.prototype.updateViewBox = function()
