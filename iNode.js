@@ -101,7 +101,7 @@ var iNode = (function() {
 		this.zoom = 1;
 		this.controller = controller;
 
-		this.setSVGviewBox();
+		this.updateViewBox();
 
 		this.pathsObj = fn.createElement(this.svgObj, 'g', {class:'inode_paths'});
 		this.nodesObj = fn.createElement(this.svgObj, 'g', {class:'inode_nodes'});
@@ -197,14 +197,8 @@ var iNode = (function() {
 			return closestOutlet;
 	};
 
-	Renderer.prototype.setSVGviewBox = function(viewBox)
+	Renderer.prototype.updateViewBox = function()
 	{
-		viewBox = viewBox || {};
-		if (viewBox.x) this.viewBox.x = viewBox.x;
-		if (viewBox.y) this.viewBox.y = viewBox.y;
-		if (viewBox.width) this.viewBox.width = viewBox.width;
-		if (viewBox.height) this.viewBox.height = viewBox.height;
-
 		fn.setElementAttribute(this.svgObj, {viewBox: this.viewBox.x + ' ' + this.viewBox.y + ' ' + this.viewBox.width + ' ' + this.viewBox.height});
 	};
 
@@ -212,7 +206,9 @@ var iNode = (function() {
 	{
 		zoom = fn.clamp(zoom, 0.02, 50);
 		this.zoom = zoom;
-		this.setSVGviewBox({width: this.rect.width / this.zoom, height: this.rect.height / this.zoom});
+		this.viewBox.width = this.rect.width / this.zoom;
+		this.viewBox.height = this.rect.height / this.zoom;
+		this.updateViewBox();
 	};
 
 	Renderer.prototype.handleEvent = function(evt)
@@ -237,12 +233,12 @@ var iNode = (function() {
 					this.viewBox.y += maxY * percentY;
 
 					this.setZoom(newZoom);
-					this.setSVGviewBox();
+					this.updateViewBox();
 
 				} else {
 					this.viewBox.x += evt.deltaX;
 					this.viewBox.y += evt.deltaY;
-					this.setSVGviewBox();
+					this.updateViewBox();
 				}
 				break;
 		}
