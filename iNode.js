@@ -362,13 +362,13 @@ var iNode = (function() {
 		switch(evt.type) {
 			case 'touchstart': case 'mousedown':
 				fn.addEventListener(document, ['touchmove', 'mousemove', 'touchend', 'mouseup'], this, true);
-				this.previousPos = {x:evt.clientX, y:evt.clientY};
+				this.previousPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
 				break;
 
 			case 'touchmove': case 'mousemove':
-				var cursorPos = {x:evt.clientX, y:evt.clientY};
-				var deltaPos = {x:(cursorPos.x - this.previousPos.x) / this.renderer.zoom, y: (cursorPos.y - this.previousPos.y) / this.renderer.zoom};
-				this.previousPos = cursorPos;
+				var currentPos = this.renderer.relativeCoordinates({x:evt.clientX, y:evt.clientY});
+				var deltaPos = {x:(currentPos.x - this.previousPos.x), y: (currentPos.y - this.previousPos.y)};
+				this.previousPos = currentPos;
 
 				this.rect.x += deltaPos.x;
 				this.rect.y += deltaPos.y;
