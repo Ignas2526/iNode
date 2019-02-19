@@ -231,9 +231,7 @@ var iNode = (function() {
 
 					this.viewBox.x += maxX * percentX;
 					this.viewBox.y += maxY * percentY;
-
 					this.setZoom(newZoom);
-					this.updateViewBox();
 
 				} else {
 					this.viewBox.x += evt.deltaX;
