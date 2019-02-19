@@ -71,6 +71,11 @@ var iNode = (function() {
 		return obj;
 	};
 
+	fn.prototype.destroyElement = function(DOMobj)
+	{
+		DOMobj.parentElement.removeChild(DOMobj);
+	};
+
 
 	/********* Renderer *********/
 
@@ -352,7 +357,7 @@ var iNode = (function() {
 		}
 		this.outlet = null;
 
-		this.renderer.destroyElement(this.gObj);
+		fn.destroyElement(this.gObj);
 		this.controller = null;
 		this.renderer = null;
 	};
@@ -547,7 +552,7 @@ var iNode = (function() {
 
 	Link.prototype.destructor = function()
 	{
-		this.renderer.destroyElement(this.pathObj);
+		fn.destroyElement(this.pathObj);
 		this.inlet = null;
 		this.outlet = null;
 		this.renderer = null;
