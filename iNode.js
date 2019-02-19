@@ -1,8 +1,6 @@
 var iNode = (function() {
 	"use strict";
 
-	var self = {};
-
 	var svgURI = 'http://www.w3.org/2000/svg';
 	var xhtmlURI = 'http://www.w3.org/1999/xhtml';
 
