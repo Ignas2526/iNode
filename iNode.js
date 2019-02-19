@@ -59,6 +59,19 @@ var iNode = (function() {
 		}
 	};
 
+	fn.prototype.createElement = function(parent, name, params)
+	{
+		var obj = document.createElementNS(svgURI, name);
+
+		for (var param in params) {
+			obj.setAttributeNS(null, param, params[param]);
+		}
+
+		parent.appendChild(obj);
+		return obj;
+	};
+
+
 	/********* Renderer *********/
 
 	function Renderer(svgObj, controller)
@@ -79,27 +92,15 @@ var iNode = (function() {
 
 		this.setSVGviewBox();
 
-		this.pathsObj = this.createElement(this.svgObj, 'g', {class:'inode_paths'});
-		this.nodesObj = this.createElement(this.svgObj, 'g', {class:'inode_nodes'});
+		this.pathsObj = fn.createElement(this.svgObj, 'g', {class:'inode_paths'});
+		this.nodesObj = fn.createElement(this.svgObj, 'g', {class:'inode_nodes'});
 
 		this.node = [];
 		this.link = [];
 
 		fn.addEventListener(this.svgObj, 'wheel', this);
-		this.tmpLinkObj = this.createElement(this.pathsObj, 'path', {fill:'transparent'});
+		this.tmpLinkObj = fn.createElement(this.pathsObj, 'path', {fill:'transparent'});
 		this.clicktime = 0;
-	};
-
-	Renderer.prototype.createElement = function(parent, name, params)
-	{
-		var obj = document.createElementNS(svgURI, name);
-
-		for (var param in params) {
-			obj.setAttributeNS(null, param, params[param]);
-		}
-
-		parent.appendChild(obj);
-		return obj;
 	};
 
 	Renderer.prototype.setElementAttribute = function(obj, params)
@@ -251,8 +252,8 @@ var iNode = (function() {
 		this.outlet = [];
 		this.renderer = renderer;
 
-		this.gObj = this.renderer.createElement(this.renderer.nodesObj, 'g', {class:'inode_node'});
-		this.fObj = this.renderer.createElement(this.gObj, 'foreignObject', {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
+		this.gObj = fn.createElement(this.renderer.nodesObj, 'g', {class:'inode_node'});
+		this.fObj = fn.createElement(this.gObj, 'foreignObject', {x:this.rect.x, y:this.rect.y, width:this.rect.width, height:this.rect.height});
 
 		this.nodeContent = document.createElement('div');
 		this.nodeContent.xmlns = xhtmlURI;
@@ -529,7 +530,7 @@ var iNode = (function() {
 
 		this.inlet = inlet;
 		this.outlet = outlet;
-		this.pathObj = this.renderer.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
+		this.pathObj = fn.createElement(this.renderer.pathsObj, 'path', {fill:'transparent'});
 
 		this.renderLink();
 		fn.addEventListener(this.pathObj, ['touchstart', 'mousedown'], this);
