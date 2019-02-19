@@ -57,7 +57,7 @@ var iNode = (function() {
 		}
 	};
 
-	fn.prototype.createElement = function(parent, name, params)
+	fn.createElement = function(parent, name, params)
 	{
 		var obj = document.createElementNS(svgURI, name);
 
@@ -69,12 +69,12 @@ var iNode = (function() {
 		return obj;
 	};
 
-	fn.prototype.destroyElement = function(DOMobj)
+	fn.destroyElement = function(DOMobj)
 	{
 		DOMobj.parentElement.removeChild(DOMobj);
 	};
 
-	fn.prototype.setElementAttribute = function(obj, params)
+	fn.setElementAttribute = function(obj, params)
 	{
 		for (var param in params) {
 			obj.setAttributeNS(null, param, params[param]);
