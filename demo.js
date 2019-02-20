@@ -1,6 +1,8 @@
 var BasicController = (function() {
 	"use strict";
 
+	var renderer, fn, prototypes;
+	
 	function DemoNode(node, nodeType, cfg)
 	{
 		this.rect = cfg;
@@ -30,5 +32,11 @@ var BasicController = (function() {
 
 	return {
 		'Node': function(node, nodeType, cfg) {return new DemoNode(node, nodeType, cfg);}
+		'onNewRenderer': function(state)
+		{
+			renderer = state.renderer;
+			prototypes = state.prototypes;
+			fn = state.fn;
+		},
 	};
 })();
