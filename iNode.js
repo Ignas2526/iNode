@@ -88,6 +88,16 @@ var iNode = (function() {
 	function Renderer(svgObj, controller)
 	{
 		this.controller = controller;
+		this.controller.onNewRenderer({
+			'renderer': this,
+			'prototypes': {
+				'Renderer': Renderer.prototype,
+				'Node': Node.prototype,
+				'NodeInlet': NodeInlet.prototype,
+				'NodeOutlet': NodeOutlet.prototype,
+				'Link': Link.prototype,
+			},
+			'fn': fn});
 
 		this.svgObj = svgObj;
 		this.svgObj.style.mozUserSelect = 'none';
