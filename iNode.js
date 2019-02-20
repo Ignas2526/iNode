@@ -98,6 +98,9 @@ var iNode = (function() {
 
 		this.rect = {top: 0, left: 0, width: 0, height: 0};
 		this.viewBox = {x: 0, y: 0, width: 0, height: 0};
+
+		this.zoomMin = 0.02;
+		this.zoomMax = 50;
 		this.zoom = 1;
 
 		this.updateRect();
@@ -217,7 +220,7 @@ var iNode = (function() {
 
 	Renderer.prototype.setZoom = function(zoom)
 	{
-		zoom = fn.clamp(zoom, 0.02, 50);
+		zoom = fn.clamp(zoom, this.zoomMin, this.zoomMax);
 		this.zoom = zoom;
 		this.viewBox.width = this.rect.width / this.zoom;
 		this.viewBox.height = this.rect.height / this.zoom;
@@ -232,7 +235,7 @@ var iNode = (function() {
 				if (evt.ctrlKey || evt.metaKey) {
 					var pos = this.relativeCoordinates({x: evt.clientX, y: evt.clientY});
 					var newZoom = this.zoom - evt.deltaY / 100;
-					newZoom = fn.clamp(newZoom, 0.02, 50);
+					newZoom = fn.clamp(newZoom, this.zoomMin, this.zoomMax);
 
 					// The maximum possible zoom for x and y offet, to zoom into bottom-right corner
 					var maxX = this.viewBox.width - this.rect.width / newZoom;
