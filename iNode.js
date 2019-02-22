@@ -23,14 +23,14 @@ var iNode = (function() {
 		return Math.min(max, Math.max(min, value));
 	};
 
-	fn.addEventListener = function(object, event, callback, bubbles, passive)
+	fn.addEventListener = function(object, event, callback, isBubbling, isPassive)
 	{
-		passive = typeof passive == 'undefined' ? false : passive;
+		isPassive = typeof isPassive == 'undefined' ? false : isPassive;
 
 		if (passiveEvents) {
-			var opts = {passive: passive, capture: bubbles};
+			var opts = {passive: isPassive, capture: isBubbling};
 		} else {
-			var opts = bubbles;
+			var opts = isBubbling;
 		}
 
 		if (typeof event == 'string') {
@@ -41,13 +41,13 @@ var iNode = (function() {
 		}
 	};
 
-	fn.removeEventListener = function(object, event, callback, bubbles, passive)
+	fn.removeEventListener = function(object, event, callback, isBubbling, isPassive)
 	{
-		passive = typeof passive == 'undefined' ? false : passive;
+		isPassive = typeof isPassive == 'undefined' ? false : isPassive;
 		if (passiveEvents) {
-			var opts = {passive: passive, capture: bubbles};
+			var opts = {passive: isPassive, capture: isBubbling};
 		} else {
-			var opts = bubbles;
+			var opts = isBubbling;
 		}
 		if (typeof event == 'string') {
 			object.removeEventListener(event, callback, opts);
